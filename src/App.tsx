@@ -1,4 +1,3 @@
-import { LogCallback, createFFmpeg, fetchFile } from "@ffmpeg.wasm/main";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -8,163 +7,56 @@ import {
   UploadProps,
   theme,
 } from "antd";
-import { RcFile } from "antd/es/upload";
-import { useEffect, useRef, useState } from "react";
+import type { RcFile } from "antd/es/upload";
+import { useState } from "react";
 import "./App.css";
 import { useLogger } from "./hooks/useLogger";
-import { useMatcher } from "./hooks/useMatcher";
+import {
+  LoudnessParams,
+  applyGain,
+  calcLoudnorm,
+  getLoudness,
+  hasLoudnessParams,
+} from "./lib/ffmpeg";
 
-// "input_i" : "-14.23",
-// "input_tp" : "-0.85",
-// "input_lra" : "5.50",
-// "input_thresh" : "-24.40",
-// "output_i" : "-23.12",
-// "output_tp" : "-7.74",
-// "output_lra" : "4.40",
-// "output_thresh" : "-33.19",
-// "normalization_type" : "dynamic",
-// "target_offset" : "-0.88"
-
-type EncoderParams = {
-  progress: string;
-  duration: number;
-  i: number;
-  tp: number;
-  target_i: number;
-  target_tp: number;
+const defaultParams = {
+  i: -18,
+  tp: -3,
+  target_i: -14,
+  target_tp: -1,
 };
-
-const parseLoudnorm = (s: string) =>
-  s && /".+?" : "(?<param>.+?)"/.exec(s)?.groups?.param;
-
-const parseProgress = (s: string) => /time=(?<time>.+?) /.exec(s)?.groups?.time;
-
-type LoudnessParams = Pick<
-  EncoderParams,
-  "i" | "tp" | "target_i" | "target_tp"
->;
-
-const hasLoudnessParams = (
-  params: Partial<LoudnessParams>
-): params is LoudnessParams =>
-  params !== undefined &&
-  "i" in params &&
-  "tp" in params &&
-  "target_i" in params &&
-  "target_tp" in params;
-
-const calcLoudnorm = (params: LoudnessParams) =>
-  Math.min(params.target_i - params.i, params.target_tp - params.tp);
-
-function generateFilename(name: string) {
-  const root = name.replace(".wav", "");
-  return `${root}-mastered.wav`;
-}
 
 function App() {
   const [audioSrc, setAudioSrc] = useState("");
-
+  const [params, setParams] = useState<LoudnessParams>(defaultParams);
+  const [progress, setProgress] = useState<number>(-1);
   const [log, logMsg] = useLogger();
-  const [params, updateParams] = useMatcher<Partial<EncoderParams>>([
-    {
-      trigger: "input_i",
-      parser: (s) => ({ i: Number(parseLoudnorm(s)) }),
-    },
-    {
-      trigger: "input_tp",
-      parser: (s) => ({ tp: Number(parseLoudnorm(s)) }),
-    },
-    {
-      trigger: "time=",
-      parser: (s) => ({ progress: parseProgress(s) }),
-    },
-  ]);
 
-  const paramsRef = useRef(params);
-  useEffect(() => {
-    paramsRef.current = params;
-  }, [params]);
+  const onProgress = (ratio: number) => setProgress(ratio);
 
-  const onLog: LogCallback = (logParams) => {
-    if (logParams?.message?.includes("FFMPEG_END")) {
-      logMsg("Done analyzing.");
-    }
-    logMsg(logParams.message);
-    updateParams(logParams.message);
-  };
-
-  const handleUpload = async (file: RcFile) => {
-    if (file === undefined) {
+  const handleUpload = async (filename: string) => {
+    if (filename === undefined) {
       return;
     }
 
-    const { name } = file;
+    // const { name } = file;
+    const params = await getLoudness(filename, logMsg, onProgress);
 
-    let ffmpeg = createFFmpeg({
-      log: true,
-      logger: onLog,
-    });
+    setParams({ ...defaultParams, ...params });
+    const adjustment = calcLoudnorm(params as LoudnessParams);
 
-    logMsg("loading ffmpeg...");
-    await ffmpeg.load();
-
-    logMsg(`Storing ${name}...`);
-    const audioFile = await fetchFile(file);
-    ffmpeg.FS("writeFile", name, audioFile);
-
-    logMsg(`Analyzing ${name}...`);
-
-    await ffmpeg.run(
-      "-i",
-      name,
-      "-af",
-      "loudnorm=print_format=json",
-      "-f",
-      "null",
-      "-"
-    );
-    
     logMsg("Initiating second pass...");
-    await ffmpeg.exit();
-    ffmpeg = createFFmpeg({ log: true, logger: onLog });
-    await ffmpeg.load();
-    ffmpeg.FS("writeFile", name, audioFile);
 
-    const currentParams = {
-      i: -18,
-      tp: -3,
-      ...paramsRef.current,
-      target_i: -14,
-      target_tp: -1,
-    };
-
-    if (!hasLoudnessParams(currentParams)) {
-      logMsg(`Couldn't get proper values. ${JSON.stringify(currentParams)}`);
+    if (!hasLoudnessParams(params)) {
+      logMsg(`Couldn't get proper values. ${JSON.stringify(params)}`);
       return;
     }
-    const adj = calcLoudnorm(currentParams as LoudnessParams);
-
     logMsg(
-      `Adjusting volume by ${adj} dB (I: ${currentParams.i + adj} TP: ${
-        currentParams.tp + adj
+      `Adjusting volume by ${adjustment} dB (I: ${params.i + adjustment} TP: ${
+        params.tp + adjustment
       })`
     );
-
-    const outfile = generateFilename(name);
-
-    logMsg(`Output filename: ${outfile}`);
-
-    await ffmpeg.run(
-      "-i",
-      name,
-      // "-threads",
-      // "256",
-      "-af",
-      `volume=${adj}dB`,
-      outfile
-    );
-
-    const audio = ffmpeg.FS("readFile", outfile);
+    const audio = await applyGain(filename, adjustment, logMsg);
 
     const audioUrl = URL.createObjectURL(
       new Blob([audio.buffer], { type: "audio/wav" })
@@ -178,35 +70,49 @@ function App() {
     name: "file",
     multiple: false,
     accept: "audio/wav",
-    customRequest: ({ file, onSuccess }) => {
-      handleUpload(file as RcFile);
+    customRequest: async ({ file, onSuccess }) => {
+      logMsg(`handling request for ${file}`);
+      // await handleUpload(file as RcFile);
       onSuccess?.("ok");
     },
-    onChange(info) {
+    async onChange(info) {
       const { status, name } = info.file;
       if (status === "uploading") {
         logMsg(`Uploading ${name}...`);
       }
       if (status === "done") {
         logMsg(`Done uploading ${name}`);
+        handleUpload(name);
       }
       if (status === "error") {
         logMsg("Failed to upload. Sorry =(");
         return;
       }
     },
-    onDrop(e) {},
+    onDrop(e) {
+      logMsg(`dropped ${e.dataTransfer.files}`);
+    },
   };
+
+  // const visualize = () => {
+  //   const wavesurfer = WaveSurfer.create({
+  //     container: "#waveform",
+  //     waveColor: "#4F4A85",
+  //     progressColor: "#383351",
+  //     url: "/audio.mp3",
+  //   });
+  // };
 
   return (
     <>
       <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
         <div className="report">
           <audio controls src={audioSrc} />
-          {/* <input type="file" onChange={handleChange} /> */}
+
           <Upload {...uploadProps}>
             <Button icon={<UploadOutlined />}>Drop .wav here</Button>
           </Upload>
+
           <Typography.Text>
             <ul>
               {log.map((line, index) => (
@@ -214,9 +120,10 @@ function App() {
               ))}
             </ul>
           </Typography.Text>
+
           <Typography.Text>i: {params?.i}</Typography.Text>
           <Typography.Text>tp: {params?.tp}</Typography.Text>
-          <Typography.Text>progress: {params?.progress}</Typography.Text>
+          <Typography.Text>progress: {progress}</Typography.Text>
         </div>
       </ConfigProvider>
     </>

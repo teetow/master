@@ -1,5 +1,5 @@
 import type { LogCallback } from "@ffmpeg.wasm/main";
-import { createFFmpeg } from "@ffmpeg.wasm/main";
+import { createFFmpeg, fetchFile } from "@ffmpeg.wasm/main";
 import { parseLog } from "./logparser";
 
 export type EncoderParams = {
@@ -33,18 +33,34 @@ export function generateFilename(name: string) {
   return `${root}-mastered.wav`;
 }
 
-export const calcLoudness = async (
+export const getLoudness = async (
   file: string,
-  onMsg: (s: string) => void
+  onMsg?: (s: string) => void,
+  onProgress?: (ratio: number) => void
 ) => {
-  let params: Partial<EncoderParams> = {};
+  let params: Partial<LoudnessParams> = {};
 
-  const onLog: LogCallback = (logParams) => {
+  const logMsg: LogCallback = (logParams) => {
     params = parseLog(logParams.message, params);
-    onMsg(logParams.message);
+    onMsg?.(logParams.message);
   };
 
-  const ffmpeg = createFFmpeg({ log: true, logger: onLog });
+  const ffmpeg = createFFmpeg({
+    log: true,
+    logger: logMsg,
+    progress: ({ ratio }) => onProgress?.(ratio),
+  });
+  await ffmpeg.load();
+
+  onMsg?.(`Storing ${file}...`);
+  const audioFile = await fetchFile(file);
+  onMsg?.(`${audioFile.length} (${audioFile.buffer.byteLength}) bytes stored.`);
+  ffmpeg.FS("writeFile", file, audioFile);
+
+  // const dir = ffmpeg.FS("readdir", "");
+  // onMsg?.(`Folder contents: ${dir.join(", ")}`);
+
+  onMsg?.("done writing.");
 
   await ffmpeg.run(
     "-i",
@@ -68,8 +84,15 @@ export const applyGain = async (
     onMsg(logParams.message);
   };
 
-  const outfile = generateFilename(file);
-
   const ffmpeg = createFFmpeg({ log: true, logger: onLog });
+  await ffmpeg.load();
+
+  const audioFile = await fetchFile(file);
+  ffmpeg.FS("writeFile", file, audioFile);
+
+  const outfile = generateFilename(file);
   await ffmpeg.run("-i", file, "-af", `volume=${adjustment}dB`, outfile);
+  const audio = ffmpeg.FS("readFile", outfile);
+
+  return audio;
 };
