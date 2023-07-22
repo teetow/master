@@ -279,7 +279,7 @@ function App() {
         </p>
         <p>
           <div className="socialbox">
-            <a href="github.com/teetow/master">
+            <a href="https://github.com/teetow/master">
               <svg
                 viewBox="0 0 256 256"
                 xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +292,7 @@ function App() {
               <span>teetow/master</span>
             </a>
 
-            <a href="soundcloud.com/teetow">
+            <a href="https://soundcloud.com/teetow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 208.952 1100 581.696"
