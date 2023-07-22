@@ -4,7 +4,6 @@
   padding: 2rem;
 }
 
-
 .master {
   display: grid;
   grid-template-rows: 10rem 3rem 1fr;
