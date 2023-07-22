@@ -16,11 +16,13 @@
     "@ffmpeg.wasm/main": "^0.12.0",
     "antd": "^5.7.0",
     "classix": "^2.1.34",
+    "coi-serviceworker": "^0.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "wavesurfer.js": "^7.0.3"
   },
   "devDependencies": {
+    "@types/node": "^20.4.4",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
