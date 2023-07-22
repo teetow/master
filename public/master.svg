@@ -1,0 +1,7 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:grid x="0" y="0" width="4" height="4"></bx:grid>
+  </defs>
+  <path style="stroke-width: 10px; fill: rgb(0, 223, 104);"
+    d="M 4 32 L 12 8 L 32 28 L 36 16 L 60 32 L 36 48 L 32 36 L 12 56 L 4 32 Z"></path>
+</svg>
