@@ -1,20 +1,20 @@
 import type { LogCallback } from "@ffmpeg.wasm/main";
 import { createFFmpeg, fetchFile } from "@ffmpeg.wasm/main";
+import type { RcFile } from "antd/es/upload";
 import { parseLog } from "./logparser";
 
-export type EncoderParams = {
-  progress: string;
-  duration: number;
+export type LoudnessParams = {
   i: number;
   tp: number;
   target_i: number;
   target_tp: number;
+  result_i: number;
+  result_tp: number;
+  srate: string;
+  channels: string;
+  bitdepth: string;
+  bitrate: string;
 };
-
-export type LoudnessParams = Pick<
-  EncoderParams,
-  "i" | "tp" | "target_i" | "target_tp"
->;
 
 export const hasLoudnessParams = (
   params: Partial<LoudnessParams>
@@ -30,41 +30,43 @@ export const calcLoudnorm = (params: LoudnessParams) =>
 
 export function generateFilename(name: string) {
   const root = name.replace(".wav", "");
-  return `${root}-mastered.wav`;
+  return `${root}-mastered.wav`.replace(" ", "_");
 }
 
 export const getLoudness = async (
-  file: string,
-  onMsg?: (s: string) => void,
-  onProgress?: (ratio: number) => void
+  file: RcFile,
+  options: {
+    onMsg?: (s: string) => void;
+    onProgress?: (ratio: number) => void;
+    onLogParse?: (params: Partial<LoudnessParams>) => void;
+  }
 ) => {
+  let { onMsg, onProgress, onLogParse } = options;
   let params: Partial<LoudnessParams> = {};
 
-  const logMsg: LogCallback = (logParams) => {
+  const handleLog: LogCallback = (logParams) => {
     params = parseLog(logParams.message, params);
-    onMsg?.(logParams.message);
+    onLogParse?.(params);
   };
 
   const ffmpeg = createFFmpeg({
     log: true,
-    logger: logMsg,
+    logger: handleLog,
     progress: ({ ratio }) => onProgress?.(ratio),
   });
   await ffmpeg.load();
 
-  onMsg?.(`Storing ${file}...`);
-  const audioFile = await fetchFile(file);
-  onMsg?.(`${audioFile.length} (${audioFile.buffer.byteLength}) bytes stored.`);
-  ffmpeg.FS("writeFile", file, audioFile);
+  onMsg?.(`Loading ${file.name}...`);
+  const audioData = await fetchFile(file);
+  const safeFilename = file.name.replace(" ", "_");
 
-  // const dir = ffmpeg.FS("readdir", "");
-  // onMsg?.(`Folder contents: ${dir.join(", ")}`);
+  onMsg?.(`${audioData.length} (${audioData.buffer.byteLength}) bytes loaded.`);
+  ffmpeg.FS("writeFile", safeFilename, audioData);
 
-  onMsg?.("done writing.");
-
+  onMsg?.(`Analyzing ${safeFilename}...`);
   await ffmpeg.run(
     "-i",
-    file,
+    `${safeFilename}`,
     "-af",
     "loudnorm=print_format=json",
     "-f",
@@ -75,24 +77,23 @@ export const getLoudness = async (
   return params;
 };
 
-export const applyGain = async (
-  file: string,
-  adjustment: number,
-  onMsg: (s: string) => void
-) => {
-  const onLog: LogCallback = (logParams) => {
-    onMsg(logParams.message);
-  };
-
-  const ffmpeg = createFFmpeg({ log: true, logger: onLog });
+export const applyGain = async (file: RcFile, adjustment: number) => {
+  const ffmpeg = createFFmpeg({ log: true });
   await ffmpeg.load();
 
   const audioFile = await fetchFile(file);
-  ffmpeg.FS("writeFile", file, audioFile);
+  const safeFilename = file.name.replace(" ", "_");
+  ffmpeg.FS("writeFile", safeFilename, audioFile);
 
-  const outfile = generateFilename(file);
-  await ffmpeg.run("-i", file, "-af", `volume=${adjustment}dB`, outfile);
-  const audio = ffmpeg.FS("readFile", outfile);
+  const outfile = generateFilename(safeFilename);
+  await ffmpeg.run(
+    "-i",
+    `${safeFilename}`,
+    "-af",
+    `volume=${adjustment}dB`,
+    `${outfile}`
+  );
+  const audio = ffmpeg.FS("readFile", `${outfile}`);
 
-  return audio;
+  return [audio, outfile] as [Uint8Array, string];
 };

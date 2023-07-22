@@ -14,6 +14,7 @@
     "@ffmpeg.wasm/core-mt": "^0.12.0",
     "@ffmpeg.wasm/main": "^0.12.0",
     "antd": "^5.7.0",
+    "classix": "^2.1.34",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "wavesurfer.js": "^7.0.3"

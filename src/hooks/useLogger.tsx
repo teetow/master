@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 
 export function useLogger() {
-  const [log, setLog] = useState<string[]>([]);
+  const [log, setLog] = useState<ReactNode[]>([]);
 
-  const logMsg = (message: string) => {
+  const logMsg = (message: string | ReactElement) => {
     setLog((prev) => [...prev, message]);
   };
 
-  return [log, logMsg] as [string[], (message: string) => string];
+  const clearLog = () => setLog([]);
+
+  return [log, logMsg, clearLog] as [
+    string[],
+    (message: string | ReactElement) => string,
+    () => void
+  ];
 }

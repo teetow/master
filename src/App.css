@@ -2,50 +2,97 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-.report {
+.master {
   display: grid;
-  text-align: start;
+  grid-template-rows: 10rem 3rem 1fr;
   gap: 0.5rem;
+}
+
+.upload {
+  margin-bottom: 2rem;
+}
+
+.wavesurfer:not(.has-audio) {
+  display: none;
+}
+
+.progress {
+  height: 8px;
+  border: 2px solid #aaa;
+}
+
+.progress:not(.visible) {
+  visibility: hidden;
+}
+
+.progress.visible::after {
+  background-color: #aaa;
+  content: "";
+  display: block;
+  height: 4px;
+  margin: 2px 2px 0;
+  width: calc((var(--progress) * 100%) - 4px);
+}
+
+.stats {
+  display: flex;
+  gap: 1rem;
+  height: 2rem;
+}
+
+.stats .box {
+  border: 1px solid #333;
+  border-radius: 4px;
+  display: flex;
+  gap: 0.5rem;
+  line-height: 2rem;
+  padding-inline: 8px;
+}
+
+.stats .box .info {
+  border-radius: 2px;
+  background-color: #333;
+  color: #888;
+  padding: 0 4px;
+  margin-inline: -8px 0;
+}
+
+.history {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history li:nth-child(n+1) {
+  color: #aaa;
+}
+
+.history li:nth-child(n+2) {
+  color: #999;
+}
+
+.history li:nth-child(n+3) {
+  color: #777;
+}
+
+.history li:nth-child(n+4) {
+  color: #666;
+}
+
+.diff.over {
+  color: hsl(13, 89%, 44%);
+}
+
+.diff.at {
+  color: hsl(135, 84%, 46%);
+}
+
+.diff.under {
+  color: hsl(161, 80%, 33%);
+}
+
+.diff.wayunder {
+  color: hsl(214, 29%, 58%);
 }
