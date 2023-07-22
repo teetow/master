@@ -1,4 +1,4 @@
-import { UploadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
 
 import cx from "classix";
 import { ConfigProvider, UploadProps, theme } from "antd";
@@ -121,7 +121,13 @@ function App() {
       );
       setAudioSrc(audioUrl);
 
-      logMsg(<a href={audioUrl} download={outfile}>{`Download ${outfile}`}</a>);
+      logMsg(
+        <>
+          <a href={audioUrl} download={outfile}>
+            <DownloadOutlined /> {`${outfile}`}
+          </a>
+        </>
+      );
     }
   };
 
@@ -262,6 +268,11 @@ function App() {
             </ul>
           </div>
         </div>
+        <h3>Wot's this, then?</h3>
+        <p>
+          Drop a .wav file to normalize it to -14 dB LUFS Integrated loudness
+          and -1 dB TruePeak.
+        </p>
         <p>
           All processing is done in your browser. Nothing is uploaded. May
           contain nuts.
