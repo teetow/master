@@ -6,93 +6,9 @@
 
 .master {
   display: grid;
+  font-family: "IBMVGA";
+  gap: 0.5rem;
   grid-template-rows: 10rem 3rem 1fr;
-  gap: 0.5rem;
-}
-
-.upload {
-  margin-bottom: 2rem;
-}
-
-.wavesurfer:not(.has-audio) {
-  display: none;
-}
-
-.progress {
-  height: 8px;
-  border: 2px solid #aaa;
-}
-
-.progress:not(.visible) {
-  visibility: hidden;
-}
-
-.progress.visible::after {
-  background-color: #aaa;
-  content: "";
-  display: block;
-  height: 4px;
-  margin: 2px 2px 0;
-  width: calc((var(--progress) * 100%) - 4px);
-}
-
-.stats {
-  display: flex;
-  gap: 1rem;
-  height: 2rem;
-}
-
-.stats .box {
-  border: 1px solid #333;
-  border-radius: 4px;
-  display: flex;
-  gap: 0.5rem;
-  line-height: 2rem;
-  padding-inline: 8px;
-}
-
-.stats .box .info {
-  border-radius: 2px;
-  background-color: #333;
-  color: #888;
-  padding: 0 4px;
-  margin-inline: -8px 0;
-}
-
-.history {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.history li:nth-child(n+1) {
-  color: #aaa;
-}
-
-.history li:nth-child(n+2) {
-  color: #999;
-}
-
-.history li:nth-child(n+3) {
-  color: #777;
-}
-
-.history li:nth-child(n+4) {
-  color: #666;
-}
-
-.diff.over {
-  color: hsl(13, 89%, 44%);
-}
-
-.diff.at {
-  color: hsl(135, 84%, 46%);
-}
-
-.diff.under {
-  color: hsl(161, 80%, 33%);
-}
-
-.diff.wayunder {
-  color: hsl(214, 29%, 58%);
+  min-height: 32rem;
+  min-width: 28rem;
 }

@@ -1,3 +1,16 @@
+@font-face {
+  font-family: 'AmstradPC';
+  font-style: normal;
+  src: url(./WebPlus_Amstrad_PC-2y.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'IBMVGA';
+  font-style: normal;
+  src: url(./WebPlus_IBM_VGA_8x16.woff) format('woff');
+}
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

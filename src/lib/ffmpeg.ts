@@ -1,6 +1,5 @@
 import type { LogCallback } from "@ffmpeg.wasm/main";
 import { createFFmpeg, fetchFile } from "@ffmpeg.wasm/main";
-import type { RcFile } from "antd/es/upload";
 import { parseLog } from "./logparser";
 
 export type LoudnessParams = {
@@ -8,12 +7,6 @@ export type LoudnessParams = {
   tp: number;
   target_i: number;
   target_tp: number;
-  result_i: number;
-  result_tp: number;
-  srate: string;
-  channels: string;
-  bitdepth: string;
-  bitrate: string;
 };
 
 export const hasLoudnessParams = (
@@ -34,7 +27,7 @@ export function generateFilename(name: string) {
 }
 
 export const getLoudness = async (
-  file: RcFile,
+  file: File,
   options: {
     onMsg?: (s: string) => void;
     onProgress?: (ratio: number) => void;
@@ -77,7 +70,7 @@ export const getLoudness = async (
   return params;
 };
 
-export const applyGain = async (file: RcFile, adjustment: number) => {
+export const applyGain = async (file: File, adjustment: number) => {
   const ffmpeg = createFFmpeg({ log: true });
   await ffmpeg.load();
 

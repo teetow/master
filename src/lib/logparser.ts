@@ -5,11 +5,9 @@ type PropDef<T> = {
   parser: (s: string) => T;
 };
 
-export const parseLoudnorm = (s: string) =>
-  s && /".+?" : "(?<param>.+?)"/.exec(s)?.groups?.param;
+export const parseLoudnorm = (s: string) => s && /".+?" : "(?<param>.+?)"/.exec(s)?.groups?.param;
 
-export const parseProgress = (s: string) =>
-  /time=(?<time>.+?) /.exec(s)?.groups?.time;
+export const parseProgress = (s: string) => /time=(?<time>.+?) /.exec(s)?.groups?.time;
 
 const defs: PropDef<Partial<LoudnessParams>>[] = [
   {
@@ -24,15 +22,15 @@ const defs: PropDef<Partial<LoudnessParams>>[] = [
     trigger: "input_tp",
     parser: (s) => ({ tp: Number(parseLoudnorm(s)) }),
   },
-  {
-    trigger: "Stream #0:0: Audio: ",
-    parser: (s) => ({
-      bitdepth:
-        /Audio: (?<encoding>.+), (?<srate>\d+ Hz), (?<channels>\w+), (?<bitdepth>[^,]+?), (?<bitrate>\d+ kb\/s)/.exec(
-          s
-        )?.groups?.encoding,
-    }),
-  },
+  // {
+  //   trigger: "Stream #0:0: Audio: ",
+  //   parser: (s) => ({
+  //     bitdepth:
+  //       /Audio: (?<encoding>.+), (?<srate>\d+ Hz), (?<channels>\w+), (?<bitdepth>[^,]+?), (?<bitrate>\d+ kb\/s)/.exec(
+  //         s
+  //       )?.groups?.encoding,
+  //   } as unknown as LoudnessParams),
+  // },
 ];
 
 export function parseLog(message: string, data: Partial<LoudnessParams>) {

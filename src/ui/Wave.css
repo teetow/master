@@ -1,0 +1,4 @@
+.wavesurfer:not(.has-audio) {
+  display: none;
+}
+

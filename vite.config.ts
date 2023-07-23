@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import crossOriginIsolation from "vite-plugin-cross-origin-isolation";
 import { execSync } from "child_process";
@@ -15,4 +15,8 @@ export default defineConfig({
       },
     },
   ],
+  test: {
+    environment: "jsdom",
+    root: "src/",
+  },
 });

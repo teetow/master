@@ -1,0 +1,21 @@
+.log {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.log li:nth-child(n+1) {
+  color: #aaa;
+}
+
+.log li:nth-child(n+2) {
+  color: #999;
+}
+
+.log li:nth-child(n+3) {
+  color: #777;
+}
+
+.log li:nth-child(n+4) {
+  color: #666;
+}
