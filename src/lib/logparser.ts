@@ -35,7 +35,7 @@ const defs: PropDef<Partial<LoudnessParams>>[] = [
 
 export function parseLog(message: string, data: Partial<LoudnessParams>) {
   defs.forEach((def) => {
-    if (message.includes(def.trigger)) {
+    if (message && message.includes(def.trigger)) {
       data = { ...data, ...def.parser(message) };
     }
   });

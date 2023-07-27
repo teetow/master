@@ -1,13 +1,17 @@
+import { HTMLAttributes } from "react";
 import "./Log.css";
+import { cx } from "classix";
 
-export default function Log({ log }: { log: string[] }) {
+type Props = HTMLAttributes<HTMLDivElement> & {
+  log: string[];
+};
+
+export default function Log({ className, log, ...props }: Props) {
   return (
-    <div className="logger">
-      <label>{log[log.length - 1]}</label>
+    <div className={cx("logger", className)} {...props}>
       <ul className="log">
         {[...log]
           .reverse()
-          .slice(1)
           .map((line, index) => (
             <li key={`${index}-${line}`}>{line}</li>
           ))}

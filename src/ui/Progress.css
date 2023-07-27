@@ -13,5 +13,5 @@
   display: block;
   height: 4px;
   margin: 2px 2px 0;
-  width: calc((var(--progress) * 100%) - 4px);
+  width: calc(max(0, (var(--progress) * 100%) - 4px));
 }

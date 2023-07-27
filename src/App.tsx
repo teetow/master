@@ -1,10 +1,8 @@
-import { DownloadOutlined } from "@ant-design/icons";
-import { fetchFile } from "@ffmpeg.wasm/main";
 import { ConfigProvider, theme } from "antd";
-import { ComponentProps, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
-import useFileMeta from "./hooks/useFileMeta";
 import { useLogger } from "./hooks/useLogger";
+import { JobRunner } from "./lib/JobRunner";
 import {
   LoudnessParams,
   applyGain,
@@ -12,11 +10,11 @@ import {
   getLoudness,
   hasLoudnessParams,
 } from "./lib/ffmpeg";
+import { analyzeFile } from "./lib/metadata";
+import { Job } from "./lib/types";
 import Dropper from "./ui/Dropper";
 import Log from "./ui/Log";
-import Progress from "./ui/Progress";
-import Stats from "./ui/Stats";
-import Wave from "./ui/Wave";
+import Queue from "./ui/Queue";
 
 const defaultParams = {
   i: -18,
@@ -25,88 +23,81 @@ const defaultParams = {
   target_tp: -1,
 };
 
-type StatsProps = ComponentProps<typeof Stats>["stats"];
-
 function App() {
-  const [audioSrc, setAudioSrc] = useState("");
-  const [processQueue, setProcessQueue] = useState<File[]>([]);
-  // const [audioQueue, setAudioQueue] = useState<File[]>();
+  const queue = useRef(new JobRunner());
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [log, logMsg] = useLogger();
 
-  const [meta, getFileMeta] = useFileMeta();
-  const [stats, setStats] = useState<StatsProps>({});
-  const [progress, setProgress] = useState<number>(-1);
-  const [log, logMsg, clearLog] = useLogger();
-
-  useEffect(() => {
-    const doProcess = async (queue: File[]) => {
-      await queue.forEach(async (file) => {
-        getFileMeta(file);
-        await normalizeFile(file);
-      });
-    };
-
-    if (processQueue.length > 0) {
-      doProcess(processQueue);
-      setProcessQueue([]);
-    }
-  }, [processQueue]);
-
-  const handleUploads = (files: FileList) => {
-    setProcessQueue((prev) => [...prev, ...Array.from(files)]);
+  const updateJob = (job: Job) => {
+    setJobs((prev) => prev.map((j) => (job.src === j.src ? job : j)));
   };
 
-  const normalizeFile = async (file: File) => {
-    clearLog();
+  const handleUploads = (files: FileList) => {
+    Array.from(files).forEach((file) => {
+      const newJob: Job = {
+        src: file,
+        status: "new",
+        stats: { ...defaultParams },
+        progress: 0,
+      };
+      setJobs((prev) => [...prev, newJob]);
+      queue.current.addJob(async () => {
+        await runJob(newJob);
+      });
+    });
+  };
 
-    const cmdOptions = {
-      onMsg: logMsg,
-      onProgress: (ratio) => setProgress(ratio),
-      onLogParse: (params: Partial<LoudnessParams>) => setStats((prev) => ({ ...prev, ...params })),
-    } as Parameters<typeof getLoudness>[1];
-
-    const loudness = {
-      ...defaultParams,
-      ...(await getLoudness(file, cmdOptions)),
-    };
-
-    if (!hasLoudnessParams(loudness)) {
-      logMsg(`Couldn't get proper values. ${JSON.stringify(loudness)}`);
+  const runJob = async (job: Job) => {
+    if (!job.src) {
+      job.status = "invalid";
       return;
     }
 
-    const adjustment = calcLoudnorm(loudness as LoudnessParams);
+    job.status = "analyzing";
+    job.progress = 0;
+    updateJob(job);
 
-    let audio: Uint8Array;
-    let outfile: string;
+    job.meta = await analyzeFile(job.src);
+    updateJob(job);
 
-    if (Math.abs(adjustment) < 0.01) {
-      logMsg(`${file.name} is already normalized.`);
-      audio = await fetchFile(file);
-      const audioUrl = URL.createObjectURL(new Blob([audio.buffer], { type: "audio/wav" }));
-      setAudioSrc(audioUrl);
-    } else {
-      setStats((prev) => ({
-        ...prev,
-        ...{
-          result_i: Number((loudness.i + adjustment).toFixed(2)),
-          result_tp: Number((loudness.tp + adjustment).toFixed(2)),
-        },
-      }));
+    job.status = "measuring";
+    job.progress = 0;
+    updateJob(job);
 
-      logMsg(`Applying ${adjustment.toFixed(2)} dB gain to ${file.name}...`);
-      [audio, outfile] = await applyGain(file, adjustment);
+    const stats = await getLoudness(job.src, {
+      onProgress: (ratio) => {
+        job.progress = ratio;
+        updateJob(job);
+      },
+      onMsg: logMsg,
+    });
 
-      const audioUrl = URL.createObjectURL(new Blob([audio.buffer], { type: "audio/wav" }));
-      setAudioSrc(audioUrl);
-
-      logMsg(
-        <>
-          <a href={audioUrl} download={outfile}>
-            <DownloadOutlined /> {`${outfile}`}
-          </a>
-        </>
-      );
+    if (!hasLoudnessParams(job.stats)) {
+      logMsg(`Couldn't get proper values. ${JSON.stringify(job.stats)}`);
+      job.status = "failed";
+      updateJob(job);
+      return;
     }
+    job.stats = { ...defaultParams, ...job.stats, ...stats };
+    updateJob(job);
+
+    job.status = "adjusting";
+    job.progress = 0;
+    updateJob(job);
+
+    const adj = calcLoudnorm(job.stats as LoudnessParams);
+    const [audio, outfilename] = await applyGain(job.src, adj, {
+      onProgress: (ratio) => {
+        job.progress = ratio;
+        updateJob(job);
+      },
+    });
+    const audioUrl = URL.createObjectURL(new Blob([audio.buffer], { type: "audio/wav" }));
+    job.status = "done";
+    job.resultUrl = audioUrl;
+    job.resultFilename = outfilename;
+    updateJob(job);
+    logMsg(`Done processing ${job.src.name}`);
   };
 
   return (
@@ -114,14 +105,8 @@ function App() {
       <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
         <div className="master">
           <Dropper onDrop={handleUploads} />
-
-          <Wave src={audioSrc} />
-
-          <Stats stats={{ ...meta, ...stats }} />
-
-          <Progress progress={progress} />
-
-          <Log log={log} />
+          <Queue queue={jobs} />
+          <Log log={log} style={{ minHeight: 0 }} />
         </div>
 
         <h3>Wot's this, then?</h3>
