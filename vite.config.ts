@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     target: "esnext",
+    assetsDir: "",
   },
   optimizeDeps: {
     exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
