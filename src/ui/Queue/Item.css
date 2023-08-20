@@ -1,0 +1,27 @@
+.item {
+  border-radius: 4px;
+  background-color: #fff1;
+  padding: 1rem;
+}
+
+.item .row {
+  justify-content: space-between;
+}
+
+.item .progress {
+  min-width: 10rem;
+}
+
+.item .status {
+  font-size: 0.8em;
+}
+
+.item .meta {
+  font-size: 0.8em;
+}
+
+.item .download {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}

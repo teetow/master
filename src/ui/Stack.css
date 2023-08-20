@@ -1,0 +1,13 @@
+.stack {
+    display: grid;
+}
+
+.stack.inline {
+    grid-auto-flow: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.stack:not(.inline) {
+    grid-auto-flow: row;
+}

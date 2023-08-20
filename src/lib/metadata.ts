@@ -1,21 +1,24 @@
-export type Meta = {
-  bitdepth: string;
-  bitrate: string;
-  channels: string;
-  srate: string;
+export type Metadata = {
+  type: string;
+  bitdepth: number;
+  bitrate: number;
+  channels: number;
+  srate: number;
 };
 
-export const analyzeFile = async (file: File): Promise<Meta> => {
+export const analyzeFile = async (file: File): Promise<Metadata> => {
   const audioCtx = new AudioContext();
   const buffer = await file.arrayBuffer();
 
   return new Promise(async (resolve) => {
     await audioCtx.decodeAudioData(buffer, (props) => {
+      console.log(file.type);
       resolve({
-        bitdepth: file.type,
-        bitrate: `${Math.round(file.size / props.length)} kB/s`,
-        channels: props.numberOfChannels == 1 ? "mono" : "stereo",
-        srate: `${props.sampleRate} Hz`,
+        type: file.type,
+        bitdepth: Math.round(file.size / (props.length * props.numberOfChannels)) * 8,
+        bitrate: Math.round(file.size / props.length),
+        channels: props.numberOfChannels,
+        srate: props.sampleRate,
       });
     });
   });

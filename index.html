@@ -3,8 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/master.svg" />
+
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.1/dist/umd/ffmpeg.js"></script>
     <script src="https://unpkg.com/@ffmpeg/util@0.12.0/dist/umd/index.js"></script>
+
     <script>
       const { FFmpeg } = FFmpegWASM;
       const { fetchFile } = FFmpegUtil;
@@ -15,7 +20,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- <script src="coi-serviceworker.min.js"></script> -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
