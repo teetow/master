@@ -1,0 +1,21 @@
+.tag {
+  --color-bd: #888;
+  border: 1px solid var(--color-bd);
+  border-radius: 4px;
+  display: flex;
+  gap: 0.35em;
+  padding-inline: 8px;
+}
+
+.tag .label {
+  border-radius: 2px 0 0 2px;
+  background-color: var(--color-bd);
+  color: #ccc;
+  padding: 0 0.25em;
+  margin-inline: -8px 0;
+}
+
+.tag .unit {
+  font-size: 0.667em;
+  line-height: 0;
+}

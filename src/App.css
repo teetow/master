@@ -6,7 +6,7 @@
 
 .master {
   display: grid;
-  font-family: "IBMVGA";
+  /* font-family: 'IBMVGA'; */
   gap: 0.5rem;
   grid-template-rows: auto auto 1fr;
   min-height: 32rem;

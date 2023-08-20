@@ -1,0 +1,18 @@
+.progress {
+  height: 8px;
+  border: 2px solid #aaa;
+}
+
+.progress:not(.visible) {
+  visibility: hidden;
+}
+
+.progress.visible::after {
+  background-color: #aaa;
+  content: "";
+  display: block;
+  height: 4px;
+  margin: 2px 2px 0;
+  width: max(0%, calc((var(--progress) * 100%) - 4px));
+  transition: width calc(2/60 * 1ms) linear;
+}

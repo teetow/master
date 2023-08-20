@@ -1,18 +1,43 @@
+@font-face {}
+
 @font-face {
   font-family: 'AmstradPC';
   font-style: normal;
-  src: url(./WebPlus_Amstrad_PC-2y.woff) format('woff');
+  src: url(/WebPlus_Amstrad_PC-2y.woff) format('woff');
 }
 
 @font-face {
   font-family: 'IBMVGA';
   font-style: normal;
-  src: url(./WebPlus_IBM_VGA_8x16.woff) format('woff');
+  src: url(/WebPlus_IBM_VGA_8x16.woff) format('woff');
 }
 
+@font-face {
+  font-family: 'Topaz';
+  font-style: normal;
+  src: url(/Topaz_a500_v1.0.ttf) format('woff');
+}
+
+@font-face {
+  font-family: 'TopazPlus';
+  font-style: normal;
+  src: url(/TopazPlus_a500_v1.0.ttf) format('woff');
+}
+
+@font-face {
+  font-family: 'MicroKnight';
+  font-style: normal;
+  src: url(/MicroKnight_v1.0.ttf) format('woff');
+}
+
+@font-face {
+  font-family: 'MicroKnightPlus';
+  font-style: normal;
+  src: url(/MicroKnightPlus_v1.0.ttf) format('woff');
+}
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -26,6 +51,13 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: 'Inter var', sans-serif;
+  }
+}
+
 
 a {
   font-weight: 500;
@@ -71,17 +103,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.socialbox {
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-}
-
-.socialbox a {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
 
 .footericon {
   width: 1.5rem;
