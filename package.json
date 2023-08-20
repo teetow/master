@@ -22,7 +22,6 @@
     "wavesurfer.js": "^7.1.5"
   },
   "devDependencies": {
-    "@testing-library/react-hooks": "^8.0.1",
     "@types/emscripten": "^1.39.7",
     "@types/node": "^20.5.1",
     "@types/react": "^18.2.20",
