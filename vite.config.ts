@@ -3,11 +3,11 @@ import { defineConfig } from "vitest/config";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: "/master/",
+  base: "",
   plugins: [react()],
   build: {
     target: "esnext",
-    assetsDir: "",
+    assetsDir: ".",
   },
   optimizeDeps: {
     exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
