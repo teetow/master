@@ -6,13 +6,16 @@ import { ColorDiff } from "./ColorDiff";
 import "./Tag.css";
 
 type Props = {
-  value: string | number;
+  value?: string | number;
   as?: React.ElementType;
   label?: string;
   newValue?: string | number;
   targetValue?: string | number;
   unit?: string;
 } & HTMLAttributes<React.ElementType>;
+
+const shouldShow = (value: string | number | undefined): value is number =>
+  isNumeric(value) && !Number.isNaN(value);
 
 const Tag = ({ label, unit, value, targetValue, newValue, as, className, ...props }: Props) => {
   const Component = as || "div";
@@ -21,18 +24,18 @@ const Tag = ({ label, unit, value, targetValue, newValue, as, className, ...prop
       <Stack inline as={Component} className={cx("tag", className)} {...props}>
         {label && <span className="label">{label}</span>}
 
-        {isNumeric(value) && isNumeric(targetValue) ? (
+        {shouldShow(value) && shouldShow(targetValue) ? (
           <ColorDiff value={value} target={parseNumeric(targetValue)} />
         ) : (
           <>{value}</>
         )}
-        {newValue && (
+        {shouldShow(newValue) && (
           <>
             <span className="arrow">▶</span>
             <ColorDiff value={parseNumeric(newValue)} target={parseNumeric(targetValue)} />
-            <span className="dB">dB</span>
           </>
         )}
+        {unit && <span className="unit">{unit}</span>}
       </Stack>
     </>
   );

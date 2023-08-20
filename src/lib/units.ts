@@ -8,7 +8,7 @@ export const isNumeric = (val: string | number | undefined): val is number => {
   if (val === undefined) {
     return false;
   }
-  
+
   if (typeof val === "number") {
     return true;
   }
@@ -24,3 +24,9 @@ export const parseNumeric = (val: string | number | undefined): number => {
 
   return parseFloat(val);
 };
+
+export function getFileExt(path: string) {
+  if (path.indexOf(".") < 0) return "";
+
+  return `.${path.split(".").pop()}`;
+}

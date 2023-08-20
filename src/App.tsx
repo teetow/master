@@ -3,12 +3,20 @@ import { useRef, useState } from "react";
 import "./App.css";
 import { useLogger } from "./hooks/useLogger";
 import { JobRunner } from "./lib/JobRunner";
-import { LoudnessParams, applyGain, calcLoudnorm, getLoudness, hasLoudnessParams } from "./lib/ffmpeg";
+import {
+  EncoderOptions,
+  LoudnessParams,
+  applyGain,
+  calcLoudnorm,
+  getLoudness,
+  hasLoudnessParams,
+} from "./lib/ffmpeg";
 import { analyzeFile } from "./lib/metadata";
 import { Job } from "./lib/types";
 import Dropper from "./ui/Dropper";
 import Icons from "./ui/Icons";
 import Log from "./ui/Log";
+import Picker from "./ui/Queue/Picker";
 import Queue from "./ui/Queue/Queue";
 import SocialLink from "./ui/SocialLink";
 import Stack from "./ui/Stack";
@@ -24,8 +32,14 @@ const defaultParams = {
   result_tp: NaN,
 };
 
+type Options = EncoderOptions;
+
 function App() {
   const queue = useRef(new JobRunner());
+  const options = useRef<Options>({
+    bitDepth: "keep",
+    sampleRate: "keep",
+  });
   const [jobs, setJobs] = useState<Job[]>([]);
   const [log, logMsg] = useLogger();
 
@@ -53,16 +67,22 @@ function App() {
   };
 
   const runJob = async (job: Job) => {
+    const handleProgress = (progress: number) => {
+      job.progress = progress;
+      updateJob(job);
+    };
+
     if (!job.src) {
       job.status = "invalid";
       return;
     }
 
-    job.status = "analyzing";
     job.progress = 0;
     updateJob(job);
 
-    job.meta = await analyzeFile(job.src);
+    job.status = "analyzing";
+
+    job.meta = await analyzeFile(job.src, { onProgress: handleProgress });
     console.log("meta:", job.meta);
     updateJob(job);
 
@@ -70,13 +90,7 @@ function App() {
     job.progress = 0;
     updateJob(job);
 
-    const stats = await getLoudness(job.src, {
-      onProgress: (ratio) => {
-        job.progress = ratio;
-        updateJob(job);
-      },
-      onMsg: logMsg,
-    });
+    const stats = await getLoudness(job.src, { onProgress: handleProgress, onMsg: logMsg });
 
     if (!hasLoudnessParams(job.stats)) {
       logMsg(`Couldn't get proper values. ${JSON.stringify(job.stats)}`);
@@ -92,19 +106,30 @@ function App() {
     updateJob(job);
 
     const adj = calcLoudnorm(job.stats as LoudnessParams);
-    job.stats = { ...job.stats, result_i: job.stats.i + adj, result_tp: job.stats.tp + adj };
-    const [audio, outfilename] = await applyGain(job.src, adj, {
-      onProgress: (ratio) => {
-        job.progress = ratio;
-        updateJob(job);
+
+    const [audio, outfilename] = await applyGain(
+      job.src,
+      adj,
+      {
+        onProgress: (ratio) => {
+          job.progress = ratio;
+          updateJob(job);
+        },
       },
-    });
+      options.current
+    );
+    job.stats = { ...job.stats, result_i: job.stats.i + adj, result_tp: job.stats.tp + adj };
+
     const audioUrl = URL.createObjectURL(new Blob([audio.buffer], { type: "audio/wav" }));
     job.status = "done";
     job.resultUrl = audioUrl;
     job.resultFilename = outfilename;
     updateJob(job);
     logMsg(`Done processing ${job.src.name}`);
+  };
+
+  const handleSetOption = (option: Partial<Options>) => {
+    options.current = { ...options.current, ...option } as Options;
   };
 
   return (
@@ -114,6 +139,30 @@ function App() {
           <TextBlock variant="code" style={{ margin: "0 auto" }}>
             <TextLogo />
           </TextBlock>
+
+          <Stack inline gap="1em" style={{ fontSize: "0.8em" }}>
+            <Picker
+              label="Bit Depth"
+              value={options.current.bitDepth}
+              options={[
+                { value: "pcm_s16le", label: "16-bit" },
+                { value: "pcm_s24le", label: "24-bit" },
+                { value: "pcm_s32le", label: "32-bit" },
+                { value: "keep", label: "Keep" },
+              ]}
+              onChange={(val) => handleSetOption({ bitDepth: val as Options["bitDepth"] })}
+            />
+            <Picker
+              label="Sample Rate"
+              value={options.current.sampleRate}
+              options={[
+                { value: 44100, label: "44100" },
+                { value: 48000, label: "48000" },
+                { value: "keep", label: "Keep" },
+              ]}
+              onChange={(val) => handleSetOption({ sampleRate: val as Options["sampleRate"] })}
+            />
+          </Stack>
 
           <Stack className="master">
             <Dropper onDrop={handleUploads} />

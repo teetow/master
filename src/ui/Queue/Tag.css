@@ -14,3 +14,8 @@
   padding: 0 0.25em;
   margin-inline: -8px 0;
 }
+
+.tag .unit {
+  font-size: 0.667em;
+  line-height: 0;
+}

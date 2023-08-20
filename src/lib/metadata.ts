@@ -6,19 +6,34 @@ export type Metadata = {
   srate: number;
 };
 
-export const analyzeFile = async (file: File): Promise<Metadata> => {
+type Options = {
+  onProgress?: (progress: number) => void;
+};
+
+const guessBitDepth = (file: File, buffer: AudioBuffer) => {
+  if (file.type === "audio/wav") {
+    return Math.round(file.size / (buffer.length * buffer.numberOfChannels)) * 8;
+  }
+
+  return 24;
+};
+
+export const analyzeFile = async (file: File, { onProgress }: Options = {}): Promise<Metadata> => {
   const audioCtx = new AudioContext();
-  const buffer = await file.arrayBuffer();
+  const data = await file.arrayBuffer();
+  onProgress?.(0.2);
 
   return new Promise(async (resolve) => {
-    await audioCtx.decodeAudioData(buffer, (props) => {
-      console.log(file.type);
+    onProgress?.(0.3);
+    await audioCtx.decodeAudioData(data, (buffer) => {
+      onProgress?.(0.8);
+
       resolve({
         type: file.type,
-        bitdepth: Math.round(file.size / (props.length * props.numberOfChannels)) * 8,
-        bitrate: Math.round(file.size / props.length),
-        channels: props.numberOfChannels,
-        srate: props.sampleRate,
+        bitdepth: guessBitDepth(file, buffer),
+        bitrate: Math.round(file.size / buffer.length),
+        channels: buffer.numberOfChannels,
+        srate: buffer.sampleRate,
       });
     });
   });

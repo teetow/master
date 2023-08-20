@@ -1,5 +1,5 @@
 .item {
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #fff1;
   padding: 1rem;
 }
@@ -8,15 +8,23 @@
   justify-content: space-between;
 }
 
+.item .stats {
+  font-size: 0.8em;
+}
+
+.item .statbox {
+  gap: 0.5em;
+}
+
+.item .arrow {
+  font-size: 0.65em;
+}
+
 .item .progress {
   min-width: 10rem;
 }
 
 .item .status {
-  font-size: 0.8em;
-}
-
-.item .meta {
   font-size: 0.8em;
 }
 
