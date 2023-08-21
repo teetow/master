@@ -3,7 +3,7 @@ import { fetchFile, toBlobURL } from "@ffmpeg/util";
 import { parseLog } from "./logparser";
 import { getFileExt } from "./units";
 
-const version = "0.12.1";
+const version = "0.12.2";
 const baseUrl = "https://unpkg.com/@ffmpeg";
 
 export const FFmpegUrls = {
