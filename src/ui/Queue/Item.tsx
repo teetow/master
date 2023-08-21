@@ -25,13 +25,31 @@ type Props = Job;
 const Item = ({ src, status, resultUrl, resultFilename, progress, stats, meta }: Props) => (
   <>
     <Stack className="item" gap="1em">
+      <Stack className="row details" inline>
+        <Stack className="name" inline>
+          {!resultUrl ? (
+            <span className="jobname">{src?.name}</span>
+          ) : (
+            <a className="download" download={resultFilename} href={resultUrl}>
+              <DownloadOutlined />
+              {resultFilename}
+            </a>
+          )}
+        </Stack>
+
+        <Stack className="status" inline gap="1em">
+          <span className="statusicon">{getStatusIcon(status)}</span>
+          {!resultUrl && <Progress className="progress" progress={progress} />}
+        </Stack>
+      </Stack>
+
       <Stack className="row stats" inline>
         <Stack className="statbox" inline>
           {meta ? (
             <>
               {meta.type && <Tag value={meta.type} />}
               {meta.srate && <Tag value={meta.srate} />}
-              {meta.bitdepth && <Tag value={meta.bitdepth} unit="Bit" />}
+              {meta.bitdepth && <Tag value={meta.bitdepth} unit="BIT" />}
               {meta.channels && <Tag value={meta.channels} unit="Ch" />}
             </>
           ) : (
@@ -54,24 +72,6 @@ const Item = ({ src, status, resultUrl, resultFilename, progress, stats, meta }:
               newValue={stats.result_tp}
             />
           )}
-        </Stack>
-      </Stack>
-
-      <Stack className="row details" inline>
-        <Stack className="name" inline>
-          {!resultUrl ? (
-            <span className="jobname">{src?.name}</span>
-          ) : (
-            <a className="download" download={resultFilename} href={resultUrl}>
-              <DownloadOutlined />
-              {resultFilename}
-            </a>
-          )}
-        </Stack>
-
-        <Stack className="status" inline gap="1em">
-          <span className="statusicon">{getStatusIcon(status)}</span>
-          {!resultUrl && <Progress className="progress" progress={progress} />}
         </Stack>
       </Stack>
     </Stack>

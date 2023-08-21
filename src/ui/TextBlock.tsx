@@ -26,7 +26,7 @@ const getElem = (variant: keyof typeof StyleElems, block = false) => {
   const Tag = block ? "div" : "span";
 
   return ({ className, children, ...props }: Props) => (
-    <Tag className={cx(StyleElems[variant].className, className)} {...props}>
+    <Tag className={cx(className, StyleElems[variant].className)} {...props}>
       {children}
     </Tag>
   );

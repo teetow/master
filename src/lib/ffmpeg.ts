@@ -8,7 +8,7 @@ const baseUrl = "https://unpkg.com/@ffmpeg";
 
 export const FFmpegUrls = {
   coreURL: await toBlobURL(`${baseUrl}/core@${version}/dist/esm/ffmpeg-core.js`, "text/javascript"),
-  wasmURL: await toBlobURL(`${baseUrl}/core@${version}/dist/umd/ffmpeg-core.wasm`, "application/wasm"),
+  wasmURL: await toBlobURL(`${baseUrl}/core@${version}/dist/esm/ffmpeg-core.wasm`, "application/wasm"),
 };
 
 export type LoudnessParams = {

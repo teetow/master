@@ -1,3 +1,8 @@
+.textblock.body {
+  font-size: 13px;
+  font-weight: 300;
+}
+
 .textblock.code {
   font-family: monospace;
   white-space: pre-line;

@@ -1,6 +1,7 @@
 import { ConfigProvider, theme } from "antd";
 import { useRef, useState } from "react";
 import "./App.css";
+import Logo from "./components/Logo";
 import { useLogger } from "./hooks/useLogger";
 import { JobRunner } from "./lib/JobRunner";
 import {
@@ -21,7 +22,6 @@ import Queue from "./ui/Queue/Queue";
 import SocialLink from "./ui/SocialLink";
 import Stack from "./ui/Stack";
 import TextBlock from "./ui/TextBlock";
-import TextLogo from "./ui/TextLogo";
 
 const defaultParams = {
   i: NaN,
@@ -136,32 +136,32 @@ function App() {
     <>
       <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
         <Stack gap="2rem">
-          <TextBlock variant="code" style={{ margin: "0 auto" }}>
-            <TextLogo />
-          </TextBlock>
+          <Stack className="header" inline justifyContent="space-between">
+            <Logo />
 
-          <Stack inline gap="1em" style={{ fontSize: "0.8em" }}>
-            <Picker
-              label="Bit Depth"
-              value={options.current.bitDepth}
-              options={[
-                { value: "pcm_s16le", label: "16-bit" },
-                { value: "pcm_s24le", label: "24-bit" },
-                { value: "pcm_s32le", label: "32-bit" },
-                { value: "keep", label: "Keep" },
-              ]}
-              onChange={(val) => handleSetOption({ bitDepth: val as Options["bitDepth"] })}
-            />
-            <Picker
-              label="Sample Rate"
-              value={options.current.sampleRate}
-              options={[
-                { value: 44100, label: "44100" },
-                { value: 48000, label: "48000" },
-                { value: "keep", label: "Keep" },
-              ]}
-              onChange={(val) => handleSetOption({ sampleRate: val as Options["sampleRate"] })}
-            />
+            <Stack inline gap="1em" style={{ fontSize: "0.8em" }}>
+              <Picker
+                label="Bit Depth"
+                value={options.current.bitDepth}
+                options={[
+                  { value: "pcm_s16le", label: "16-bit" },
+                  { value: "pcm_s24le", label: "24-bit" },
+                  { value: "pcm_s32le", label: "32-bit" },
+                  { value: "keep", label: "Keep" },
+                ]}
+                onChange={(val) => handleSetOption({ bitDepth: val as Options["bitDepth"] })}
+              />
+              <Picker
+                label="Sample Rate"
+                value={options.current.sampleRate}
+                options={[
+                  { value: 44100, label: "44100" },
+                  { value: 48000, label: "48000" },
+                  { value: "keep", label: "Keep" },
+                ]}
+                onChange={(val) => handleSetOption({ sampleRate: val as Options["sampleRate"] })}
+              />
+            </Stack>
           </Stack>
 
           <Stack className="master">
