@@ -1,9 +1,5 @@
-.textblock.heading {
-  /* font-family: IBMVGA; */
-}
-
 .textblock.code {
-  font-family: MicroKnightPlus;
+  font-family: monospace;
   white-space: pre-line;
   font-weight: 100;
   line-height: 1.05em;
