@@ -1,16 +1,23 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.app {
+  min-height: 100vh;
+  display: flex;
 }
 
 .master {
   gap: 0.5rem;
-  grid-template-rows: auto auto 1fr;
-  min-height: 32rem;
+  grid-template-rows: auto 1fr auto auto;
+  min-height: 12rem;
   min-width: 28rem;
+  max-width: 50rem;
+  margin-inline: auto;
+  padding-block: 2rem;
 }
 
-.header .logo {
+.master .logo {
   min-width: 76px;
+}
+
+.master .dropzone {
+  display: flex;
+  flex-flow: column;
 }

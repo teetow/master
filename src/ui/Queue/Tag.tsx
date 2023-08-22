@@ -21,7 +21,7 @@ const Tag = ({ label, unit, value, targetValue, newValue, as, className, ...prop
   const Component = as || "div";
   return (
     <>
-      <Stack inline as={Component} className={cx("tag", className)} {...props}>
+      <Stack inline as={Component} className={cx("tag", className)} alignItems="stretch" {...props}>
         {label && <span className="label">{label}</span>}
 
         <Stack inline as="span" className="value">

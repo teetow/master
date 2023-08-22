@@ -10,7 +10,7 @@ type Props = {
 export default function Queue({ queue }: Props) {
   return (
     <>
-      <Stack as="ul" className="queue" gap="2rem">
+      <Stack as="ul" className="queue" gap="1rem">
         {queue.map((item, index) => (
           <Item key={`${index}-${item.src?.name}`} {...item} />
         ))}

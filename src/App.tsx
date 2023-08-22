@@ -135,7 +135,7 @@ function App() {
   return (
     <>
       <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
-        <Stack gap="2rem">
+        <Stack className="master" gap="2rem">
           <Stack className="header" inline justifyContent="space-between">
             <Logo />
             <Stack inline gap="1rem" style={{ fontSize: "0.8em" }}>
@@ -163,7 +163,7 @@ function App() {
             </Stack>
           </Stack>
 
-          <Stack className="master">
+          <Stack className="dropzone" gap="2rem">
             <Dropper onDrop={handleUploads} />
             <Queue queue={jobs} />
             <Log log={log} style={{ minHeight: 0 }} />
@@ -174,9 +174,8 @@ function App() {
               Readme.nfo
             </TextBlock>
             <TextBlock>
-              Drop a .wav file to normalize it to -14 dB LUFS Integrated loudness and -1 dB
-              TruePeak. All processing is done in your browser. Nothing is uploaded. May contain
-              nuts.
+              Drop a .wav file to normalize it to -14 dB LUFS Integrated loudness and -1 dB TruePeak. All
+              processing is done in your browser. Nothing is uploaded. May contain nuts.
             </TextBlock>
           </Stack>
 

@@ -1,6 +1,6 @@
 .item {
   border-radius: 8px;
-  background-color: #fff1;
+  background-color: #1e1e1e;
   padding: 1rem;
 }
 
@@ -9,15 +9,11 @@
 }
 
 .item .stats {
-  font-size: 0.8em;
+  font-size: 12px;
 }
 
 .item .statbox {
   gap: 0.5em;
-}
-
-.item .arrow {
-  font-size: 0.65em;
 }
 
 .item .status {
