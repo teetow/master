@@ -1,13 +1,17 @@
 .progress {
-  height: 8px;
-  border: 2px solid #aaa;
+  --size: 40;
 }
 
 .progress:not(.visible) {
   visibility: hidden;
 }
 
-.progress.visible::after {
+.progress.linear {
+  height: 8px;
+  border: 2px solid #aaa;
+}
+
+.progress.linear.visible::after {
   background-color: #aaa;
   content: "";
   display: block;
@@ -15,4 +19,16 @@
   margin: 2px 2px 0;
   width: max(0%, calc((var(--progress) * 100%) - 4px));
   transition: width calc(2/60 * 1ms) linear;
+}
+
+
+.progress.radial {
+  --scale: calc(var(--PI) * var(--radius) * 2);
+  fill: currentColor;
+  height: calc(var(--size) * 1px);
+  stroke-dasharray: calc(var(--progress) * var(--scale)) var(--scale);
+  transform: rotate(-90deg);
+  transition: stroke-dasharray 200ms linear;
+  width: calc(var(--size) * 1px);
+  will-change: stroke-dasharray;
 }

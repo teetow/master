@@ -24,18 +24,20 @@ const Tag = ({ label, unit, value, targetValue, newValue, as, className, ...prop
       <Stack inline as={Component} className={cx("tag", className)} {...props}>
         {label && <span className="label">{label}</span>}
 
-        {shouldShow(value) && shouldShow(targetValue) ? (
-          <ColorDiff value={value} target={parseNumeric(targetValue)} />
-        ) : (
-          <>{value}</>
-        )}
-        {shouldShow(newValue) && (
-          <>
-            <span className="arrow">▶</span>
-            <ColorDiff value={parseNumeric(newValue)} target={parseNumeric(targetValue)} />
-          </>
-        )}
-        {unit && <span className="unit">{unit}</span>}
+        <Stack inline as="span" className="value">
+          {shouldShow(value) && shouldShow(targetValue) ? (
+            <ColorDiff value={value} target={parseNumeric(targetValue)} />
+          ) : (
+            <>{value}</>
+          )}
+          {shouldShow(newValue) && (
+            <>
+              <span className="arrow">▶</span>
+              <ColorDiff value={parseNumeric(newValue)} target={parseNumeric(targetValue)} />
+            </>
+          )}
+          {unit && <span className="unit">{unit}</span>}
+        </Stack>
       </Stack>
     </>
   );

@@ -1,4 +1,8 @@
 :root {
+  --PI: 3.1415926536;
+}
+
+:root {
   font-family: 'Inter', sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -67,6 +71,14 @@ button:focus-visible {
 
 svg {
   display: block;
+}
+
+svg .path-stroke {
+  stroke: currentColor;
+  fill: transparent;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .footericon {

@@ -138,8 +138,7 @@ function App() {
         <Stack gap="2rem">
           <Stack className="header" inline justifyContent="space-between">
             <Logo />
-
-            <Stack inline gap="1em" style={{ fontSize: "0.8em" }}>
+            <Stack inline gap="1rem" style={{ fontSize: "0.8em" }}>
               <Picker
                 label="Bit Depth"
                 value={options.current.bitDepth}
@@ -175,8 +174,9 @@ function App() {
               Readme.nfo
             </TextBlock>
             <TextBlock>
-              Drop a .wav file to normalize it to -14 dB LUFS Integrated loudness and -1 dB TruePeak. All
-              processing is done in your browser. Nothing is uploaded. May contain nuts.
+              Drop a .wav file to normalize it to -14 dB LUFS Integrated loudness and -1 dB
+              TruePeak. All processing is done in your browser. Nothing is uploaded. May contain
+              nuts.
             </TextBlock>
           </Stack>
 

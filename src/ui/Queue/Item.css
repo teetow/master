@@ -20,10 +20,6 @@
   font-size: 0.65em;
 }
 
-.item .progress {
-  min-width: 10rem;
-}
-
 .item .status {
   font-size: 0.8em;
 }

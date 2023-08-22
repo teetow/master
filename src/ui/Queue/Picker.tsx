@@ -14,7 +14,7 @@ type Props<T> = {
 
 export default function Picker<T>({ label, value, options, onChange }: Props<T>) {
   return (
-    <Stack className="picker" inline gap="0.5em">
+    <Stack className="picker" inline gap="0.5rem">
       <TextBlock>{label}</TextBlock>
       <Select options={options} defaultValue={value} onChange={onChange} />
     </Stack>

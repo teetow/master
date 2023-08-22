@@ -1,21 +1,35 @@
 .tag {
   --color-bd: #888;
-  border: 1px solid var(--color-bd);
-  border-radius: 4px;
-  display: flex;
-  gap: 0.35em;
-  padding-inline: 8px;
+  --gap: 4px;
+  --rad: 3px;
+  border-radius: var(--rad);
+  overflow: hidden;
+  font-size: 12px;
+  font-stretch: 50%;
+  line-height: 18px;
+  box-sizing: border-box;
 }
 
 .tag .label {
-  border-radius: 2px 0 0 2px;
+  color: #888;
+  padding-inline: var(--gap);
+  border: 1px solid var(--color-bd);
+  border-radius: var(--rad) 0 0 var(--rad);
+  height: calc(100% - 3px);
+}
+
+.tag .value {
   background-color: var(--color-bd);
-  color: #ccc;
-  padding: 0 0.25em;
-  margin-inline: -8px 0;
+  color: #111;
+  padding-inline: var(--gap);
+}
+
+.tag .arrow {
+  padding-inline: var(--gap);
 }
 
 .tag .unit {
-  font-size: 0.667em;
-  line-height: 0;
+  font-size: 0.8em;
+  font-weight: 600;
+  padding-left: var(--gap);
 }

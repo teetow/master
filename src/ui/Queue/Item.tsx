@@ -24,7 +24,7 @@ type Props = Job;
 
 const Item = ({ src, status, resultUrl, resultFilename, progress, stats, meta }: Props) => (
   <>
-    <Stack className="item" gap="1em">
+    <Stack className="item" gap="1rem">
       <Stack className="row details" inline>
         <Stack className="name" inline>
           {!resultUrl ? (
@@ -37,9 +37,11 @@ const Item = ({ src, status, resultUrl, resultFilename, progress, stats, meta }:
           )}
         </Stack>
 
-        <Stack className="status" inline gap="1em">
+        <Stack className="status" inline gap="0.5rem">
           <span className="statusicon">{getStatusIcon(status)}</span>
-          {!resultUrl && <Progress className="progress" progress={progress} />}
+          {!resultUrl && (
+            <Progress className="progress" progress={progress} radial size={16} radius={7} />
+          )}
         </Stack>
       </Stack>
 
@@ -61,7 +63,13 @@ const Item = ({ src, status, resultUrl, resultFilename, progress, stats, meta }:
 
         <Stack className="statbox" inline>
           {!Number.isNaN(stats.i) && (
-            <Tag label="I" unit="dB" value={stats.i} targetValue={stats.target_i} newValue={stats.result_i} />
+            <Tag
+              label="I"
+              unit="dB"
+              value={stats.i}
+              targetValue={stats.target_i}
+              newValue={stats.result_i}
+            />
           )}
           {!Number.isNaN(stats.tp) && (
             <Tag
