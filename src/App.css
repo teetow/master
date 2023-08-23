@@ -17,6 +17,20 @@
   min-width: 76px;
 }
 
+.master .sticker {
+  position: relative;
+}
+
+.master .sticker::after {
+  content: "";
+  display: block;
+  background-image: url("seal.svg");
+  width: 64px;
+  height: 64px;
+  transform: rotate(-22deg) scale(0.8);
+
+}
+
 .master .dropzone {
   display: flex;
   flex-flow: column;

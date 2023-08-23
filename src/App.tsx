@@ -180,6 +180,7 @@ function App() {
           </Stack>
 
           <Stack className="socialbox" inline alignItems="center" gap="2rem">
+            <div className="sticker" title="100% AI free, no language model, no user metrics"/>
             <SocialLink href="https://github.com/teetow/master">
               <Icons.GitHub /> teetow/master
             </SocialLink>
