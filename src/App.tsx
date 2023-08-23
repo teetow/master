@@ -1,5 +1,5 @@
 import { ConfigProvider, theme } from "antd";
-import { MouseEventHandler, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import Logo from "./components/Logo";
 import { useLogger } from "./hooks/useLogger";
@@ -15,8 +15,8 @@ import {
 } from "./lib/ffmpeg";
 import { analyzeFile } from "./lib/metadata";
 import { Job, LoudnessStats } from "./lib/types";
-import Dropper from "./ui/Dropper";
 import Icons from "./ui/Icons";
+import Input from "./ui/Input";
 import Log from "./ui/Log";
 import Picker from "./ui/Queue/Picker";
 import Queue from "./ui/Queue/Queue";
@@ -133,13 +133,6 @@ function App() {
     logMsg(`Done processing ${job.src.name}`);
   };
 
-  const handleInputWheel: MouseEventHandler = (e) => {
-    if (document.activeElement === e.target) {
-      console.log("hurr");
-      e.stopPropagation();
-    }
-  };
-
   const handleSetParam = (option: Partial<EncoderParams>) => {
     setEncoderParams((prev) => ({ ...prev, ...option }));
   };
@@ -148,55 +141,49 @@ function App() {
     <>
       <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
         <Stack className="master" gap="2rem">
-          <Stack className="header" inline justifyContent="space-between">
+          <Stack className="header" inline justifyContent="space-between" alignItems="start">
             <Logo />
-            <Stack inline gap="1rem" style={{ fontSize: "0.8em" }}>
+            <Stack gap="0.5rem" style={{ fontSize: "0.8em" }}>
               <Stack inline gap="0.5rem">
-                <TextBlock as="label" htmlFor="target_i">
-                  Integrated
-                </TextBlock>
-                <input
-                  id="target_i"
-                  className="input"
-                  type="number"
-                  value={encoderParams.target_i}
-                  onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_i: Number(e.target.value) }))}
-                  onWheel={handleInputWheel}
+                <Stack inline gap="0.5rem">
+                  <Stack inline gap="0.25rem">
+                    <Input
+                      label="Integrated"
+                      value={encoderParams.target_i}
+                      onChange={(e) =>
+                        setEncoderParams((prev) => ({ ...prev, target_i: Number(e.target.value) }))
+                      }
+                    />
+                  </Stack>
+                  <Stack inline gap="0.25rem">
+                    <Input
+                      label="TruePeak"
+                      value={encoderParams.target_tp}
+                      onChange={(e) =>
+                        setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))
+                      }
+                    />
+                  </Stack>
+                </Stack>
+
+                <Picker
+                  label="Bits"
+                  value={getOpt(encoderParams.bitDepth, presets.bitDepth)}
+                  options={presets.bitDepth}
+                  onChange={(val) => handleSetParam({ bitDepth: val as EncoderParams["bitDepth"] })}
                 />
-                <TextBlock as="label" htmlFor="target_tp">
-                  TruePeak
-                </TextBlock>
-                <input
-                  id="target_tp"
-                  className="input"
-                  type="number"
-                  value={encoderParams.target_tp}
-                  onChange={(e) =>
-                    setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))
-                  }
-                  onWheel={handleInputWheel}
+                <Picker
+                  label="Sample rate"
+                  value={getOpt(encoderParams.sampleRate, presets.sampleRate)}
+                  options={presets.sampleRate}
+                  onChange={(val) => handleSetParam({ sampleRate: val as EncoderParams["sampleRate"] })}
                 />
               </Stack>
-              <Picker
-                label="Bit Depth"
-                value={getOpt(encoderParams.bitDepth, presets.bitDepth)}
-                options={presets.bitDepth}
-                onChange={(val) => handleSetParam({ bitDepth: val as EncoderParams["bitDepth"] })}
-              />
-              <Picker
-                label="Sample Rate"
-                value={getOpt(encoderParams.sampleRate, presets.sampleRate)}
-                options={presets.sampleRate}
-                onChange={(val) => handleSetParam({ sampleRate: val as EncoderParams["sampleRate"] })}
-              />
+              <Log log={log} style={{ minHeight: 0 }} />
             </Stack>
           </Stack>
 
-          <Stack className="dropzone" gap="2rem">
-            <Dropper onDrop={handleUploads} />
-            <Queue queue={jobs} />
-            <Log log={log} style={{ minHeight: 0 }} />
-          </Stack>
+          <Queue queue={jobs} onDrop={handleUploads} />
 
           <Stack style={{ maxWidth: "40rem" }}>
             <TextBlock block variant="heading">

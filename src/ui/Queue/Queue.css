@@ -2,4 +2,27 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  user-select: none;
+  position: relative;
+  border-radius: var(--theme-border-radius-8);
+}
+
+.queue.has-drop {
+  outline: 2px dashed #fc0;
+}
+
+.queue.has-drop * {
+  pointer-events: none;
+}
+
+
+
+.placeholder {
+  align-self: stretch;
+  background-color: #333c;
+  border-radius: var(--theme-border-radius-8);
+  display: grid;
+  inset: 0;
+  place-content: center;
+  position: absolute;
 }

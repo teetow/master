@@ -1,0 +1,18 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:grid x="0" y="0" width="4" height="4"></bx:grid>
+  </defs>
+  <style>
+    .filled {
+      fill: #fc0;
+    }
+  </style>
+
+  <path class="filled" d="M 26 4 L 38 4 L 38 28 L 46 28 L 32 42 L 18 28 L 26 28 L 26 4 Z" id="arrow">
+    <animateTransform attributeName="transform" attributeType="XML" type="translate" from="0 -3" to="0 6" dur="2.4s"
+      repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0;0.3;1;1;1;0.3;0;0;0" dur="2.4s" repeatCount="indefinite" />
+  </path>
+  <rect class="filled" width="56" height="8" style="" x="4" y="48" rx="4" ry="4" id="base">
+  </rect>
+</svg>

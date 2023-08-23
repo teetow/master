@@ -1,13 +1,36 @@
+.logger {
+  border-radius: var(--theme-border-radius-8);
+  background-color: #fff1;
+
+}
+
+.logger.has-entries:not(.is-expanded):after {
+  content: "...";
+  align-self: flex-end;
+}
+
 .log {
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow-y: scroll;
-  max-height: 4.2rem;
   font-size: 0.9em;
 }
 
-.log li:nth-child(n+1) {
+.log.has-entries.is-expanded .entry.expander:hover,
+.log.has-entries:not(.is-expanded):hover {
+  background-color: #fff1;
+  cursor: pointer;
+}
+
+.entry {
+  padding: 0.25rem 1rem;
+}
+
+.entry.expander {
+  text-align: end;
+}
+
+/* .log li:nth-child(n+1) {
   color: #aaa;
 }
 
@@ -21,4 +44,4 @@
 
 .log li:nth-child(n+4) {
   color: #666;
-}
+} */

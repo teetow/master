@@ -1,5 +1,6 @@
 .picker {
   isolation: isolate;
+  z-index: 1;
 }
 
 .picker .controls {
@@ -8,22 +9,22 @@
 }
 
 .picker .list {
-  position: absolute;
   background-color: #000;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  top: 2rem;
-  left: 0;
-  right: 0;
   isolation: isolate;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 2rem;
+  inset: 0 0 auto 0;
+  border: 2px solid transparent;
 }
 
 .picker .trigger {
   background-color: #fff2;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.25rem;
   border-radius: 0.125rem;
-  min-width: 6em;
+  min-width: 5em;
   display: flex;
   justify-content: space-between;
 }
@@ -36,4 +37,9 @@
 
 .picker .item {
   padding: 0.25rem 0.5rem;
+  user-select: none;
+}
+
+.picker .item:hover {
+  background-color: #fff4;
 }

@@ -1,0 +1,14 @@
+
+.input {
+  border-radius: var(--theme-border-radius-4);
+  border: none;
+  max-width: 3em;
+  min-width: 1em;
+  outline: thin solid #0000;
+  padding: 4px;
+}
+
+.input:hover,
+.input:focus-visible {
+  outline: thin solid #fc0;
+}

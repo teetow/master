@@ -18,7 +18,7 @@ type Props<T> = {
 
 export default function Picker<T>({ label, value, options, onChange }: Props<T>) {
   return (
-    <Stack className="picker" inline gap="0.5rem">
+    <Stack className="picker" inline gap="0.25rem">
       <TextBlock>{label}</TextBlock>
       <Stack className="controls">
         <Listbox onChange={onChange} by="value">

@@ -1,0 +1,8 @@
+.lineicon {
+  width: 16px;
+  height: 12px;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: currentColor;
+}
