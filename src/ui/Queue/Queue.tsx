@@ -56,7 +56,7 @@ export default function Queue({ queue, onDrop }: Props) {
       >
         {queue.length === 0 || isDragging ? (
           <div className="placeholder">
-            <img className="dropicon" src="/drop.svg" />
+            <img className="dropicon" src="drop.svg" />
             <span className="droptext">Drop audio here</span>
           </div>
         ) : (
