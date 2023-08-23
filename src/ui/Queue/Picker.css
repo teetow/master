@@ -1,0 +1,39 @@
+.picker {
+  isolation: isolate;
+}
+
+.picker .controls {
+  position: relative;
+
+}
+
+.picker .list {
+  position: absolute;
+  background-color: #000;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  top: 2rem;
+  left: 0;
+  right: 0;
+  isolation: isolate;
+}
+
+.picker .trigger {
+  background-color: #fff2;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.125rem;
+  min-width: 6em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.picker .trigger::after {
+  content: "˅";
+  transform: scaleY(0.5);
+  padding-left: 1rem;
+}
+
+.picker .item {
+  padding: 0.25rem 0.5rem;
+}

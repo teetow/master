@@ -1,4 +1,4 @@
-import { LoudnessParams } from "./ffmpeg";
+import { LoudnessStats } from "./types";
 
 type PropDef<T> = {
   trigger: string;
@@ -9,7 +9,7 @@ export const parseLoudnorm = (s: string) => s && /".+?" : "(?<param>.+?)"/.exec(
 
 export const parseProgress = (s: string) => /time=(?<time>.+?) /.exec(s)?.groups?.time;
 
-const defs: PropDef<Partial<LoudnessParams>>[] = [
+const defs: PropDef<Partial<LoudnessStats>>[] = [
   {
     trigger: "input_i",
     parser: (s) => {
@@ -33,7 +33,7 @@ const defs: PropDef<Partial<LoudnessParams>>[] = [
   // },
 ];
 
-export function parseLog(message: string, data: Partial<LoudnessParams>) {
+export function parseLog(message: string, data: Partial<LoudnessStats>) {
   defs.forEach((def) => {
     if (message && message.includes(def.trigger)) {
       data = { ...data, ...def.parser(message) };

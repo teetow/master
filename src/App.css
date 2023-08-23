@@ -24,7 +24,7 @@
 .master .sticker::after {
   content: "";
   display: block;
-  background-image: url("seal.svg");
+  background-image: url("/seal.svg");
   width: 64px;
   height: 64px;
   transform: rotate(-22deg) scale(0.8);

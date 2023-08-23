@@ -1,5 +1,5 @@
 import cx from "classix";
-import { HTMLAttributes, PropsWithChildren } from "react";
+import { ComponentPropsWithoutRef, ElementType, PropsWithChildren } from "react";
 import "./TextBlock.css";
 
 const StyleElems = {
@@ -17,25 +17,24 @@ const StyleElems = {
   },
 } satisfies Record<string, { className: string }>;
 
-type Props = PropsWithChildren<HTMLAttributes<HTMLElement>> & {
+type Props<T extends ElementType> = PropsWithChildren<{
+  as?: T;
   variant?: keyof typeof StyleElems;
   block?: boolean;
-};
+}> &
+  ComponentPropsWithoutRef<T>;
 
-const getElem = (variant: keyof typeof StyleElems, block = false) => {
-  const Tag = block ? "div" : "span";
-
-  return ({ className, children, ...props }: Props) => (
-    <Tag className={cx(className, StyleElems[variant].className)} {...props}>
-      {children}
-    </Tag>
-  );
-};
-
-export default function TextBlock({ variant = "body", block = false, children, className, ...props }: Props) {
-  const Elem = getElem(variant, block);
+export default function TextBlock<T extends ElementType>({
+  as,
+  variant = "body",
+  block = false,
+  children,
+  className,
+  ...props
+}: Props<T>) {
+  const Elem = as ? as : "div";
   return (
-    <Elem className={cx("textblock", className)} {...props}>
+    <Elem className={cx("textblock", className, StyleElems[variant].className)} {...props}>
       {children}
     </Elem>
   );

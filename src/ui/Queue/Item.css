@@ -1,26 +1,26 @@
-.item {
+.queueitem {
   border-radius: 8px;
   background-color: #1e1e1e;
   padding: 1rem;
 }
 
-.item .row {
+.queueitem .row {
   justify-content: space-between;
 }
 
-.item .stats {
+.queueitem .stats {
   font-size: 12px;
 }
 
-.item .statbox {
+.queueitem .statbox {
   gap: 0.5em;
 }
 
-.item .status {
+.queueitem .status {
   font-size: 0.8em;
 }
 
-.item .download {
+.queueitem .download {
   align-items: center;
   display: flex;
   gap: 0.5rem;

@@ -1,19 +1,20 @@
 import { ConfigProvider, theme } from "antd";
-import { useRef, useState } from "react";
+import { MouseEventHandler, useRef, useState } from "react";
 import "./App.css";
 import Logo from "./components/Logo";
 import { useLogger } from "./hooks/useLogger";
 import { JobRunner } from "./lib/JobRunner";
 import {
-  EncoderOptions,
-  LoudnessParams,
+  EncoderParams,
   applyGain,
   calcLoudnorm,
   getLoudness,
+  getOpt,
   hasLoudnessParams,
+  EncoderParamPresets as presets,
 } from "./lib/ffmpeg";
 import { analyzeFile } from "./lib/metadata";
-import { Job } from "./lib/types";
+import { Job, LoudnessStats } from "./lib/types";
 import Dropper from "./ui/Dropper";
 import Icons from "./ui/Icons";
 import Log from "./ui/Log";
@@ -32,14 +33,16 @@ const defaultParams = {
   result_tp: NaN,
 };
 
-type Options = EncoderOptions;
-
 function App() {
   const queue = useRef(new JobRunner());
-  const options = useRef<Options>({
+
+  const [encoderParams, setEncoderParams] = useState<EncoderParams>({
     bitDepth: "keep",
     sampleRate: "keep",
+    target_i: -14,
+    target_tp: -1,
   });
+
   const [jobs, setJobs] = useState<Job[]>([]);
   const [log, logMsg] = useLogger();
 
@@ -52,11 +55,13 @@ function App() {
   };
 
   const handleUploads = (files: FileList) => {
+    console.log(encoderParams);
+
     Array.from(files).forEach((file) => {
       const newJob: Job = {
         src: file,
         status: "new",
-        stats: { ...defaultParams },
+        stats: { ...defaultParams, ...encoderParams },
         progress: 0,
       };
       setJobs((prev) => [...prev, newJob]);
@@ -98,14 +103,14 @@ function App() {
       updateJob(job);
       return;
     }
-    job.stats = { ...defaultParams, ...job.stats, ...stats };
+    job.stats = { ...job.stats, ...stats };
     updateJob(job);
 
     job.status = "adjusting";
     job.progress = 0;
     updateJob(job);
 
-    const adj = calcLoudnorm(job.stats as LoudnessParams);
+    const adj = calcLoudnorm(job.stats as LoudnessStats);
 
     const [audio, outfilename] = await applyGain(
       job.src,
@@ -116,7 +121,7 @@ function App() {
           updateJob(job);
         },
       },
-      options.current
+      encoderParams
     );
     job.stats = { ...job.stats, result_i: job.stats.i + adj, result_tp: job.stats.tp + adj };
 
@@ -128,8 +133,15 @@ function App() {
     logMsg(`Done processing ${job.src.name}`);
   };
 
-  const handleSetOption = (option: Partial<Options>) => {
-    options.current = { ...options.current, ...option } as Options;
+  const handleInputWheel: MouseEventHandler = (e) => {
+    if (document.activeElement === e.target) {
+      console.log("hurr");
+      e.stopPropagation();
+    }
+  };
+
+  const handleSetParam = (option: Partial<EncoderParams>) => {
+    setEncoderParams((prev) => ({ ...prev, ...option }));
   };
 
   return (
@@ -139,26 +151,43 @@ function App() {
           <Stack className="header" inline justifyContent="space-between">
             <Logo />
             <Stack inline gap="1rem" style={{ fontSize: "0.8em" }}>
+              <Stack inline gap="0.5rem">
+                <TextBlock as="label" htmlFor="target_i">
+                  Integrated
+                </TextBlock>
+                <input
+                  id="target_i"
+                  className="input"
+                  type="number"
+                  value={encoderParams.target_i}
+                  onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_i: Number(e.target.value) }))}
+                  onWheel={handleInputWheel}
+                />
+                <TextBlock as="label" htmlFor="target_tp">
+                  TruePeak
+                </TextBlock>
+                <input
+                  id="target_tp"
+                  className="input"
+                  type="number"
+                  value={encoderParams.target_tp}
+                  onChange={(e) =>
+                    setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))
+                  }
+                  onWheel={handleInputWheel}
+                />
+              </Stack>
               <Picker
                 label="Bit Depth"
-                value={options.current.bitDepth}
-                options={[
-                  { value: "pcm_s16le", label: "16-bit" },
-                  { value: "pcm_s24le", label: "24-bit" },
-                  { value: "pcm_s32le", label: "32-bit" },
-                  { value: "keep", label: "Keep" },
-                ]}
-                onChange={(val) => handleSetOption({ bitDepth: val as Options["bitDepth"] })}
+                value={getOpt(encoderParams.bitDepth, presets.bitDepth)}
+                options={presets.bitDepth}
+                onChange={(val) => handleSetParam({ bitDepth: val as EncoderParams["bitDepth"] })}
               />
               <Picker
                 label="Sample Rate"
-                value={options.current.sampleRate}
-                options={[
-                  { value: 44100, label: "44100" },
-                  { value: 48000, label: "48000" },
-                  { value: "keep", label: "Keep" },
-                ]}
-                onChange={(val) => handleSetOption({ sampleRate: val as Options["sampleRate"] })}
+                value={getOpt(encoderParams.sampleRate, presets.sampleRate)}
+                options={presets.sampleRate}
+                onChange={(val) => handleSetParam({ sampleRate: val as EncoderParams["sampleRate"] })}
               />
             </Stack>
           </Stack>
@@ -174,13 +203,14 @@ function App() {
               Readme.nfo
             </TextBlock>
             <TextBlock>
-              Drop a .wav file to normalize it to -14 dB LUFS Integrated loudness and -1 dB TruePeak. All
-              processing is done in your browser. Nothing is uploaded. May contain nuts.
+              Drop a .wav file to normalize it to {encoderParams.target_i} dB LUFS Integrated loudness and{" "}
+              {encoderParams.target_tp} dB TruePeak. All processing is done in your browser. Nothing is
+              uploaded. May contain nuts.
             </TextBlock>
           </Stack>
 
           <Stack className="socialbox" inline alignItems="center" gap="2rem">
-            <div className="sticker" title="100% AI free, no language model, no user metrics"/>
+            <div className="sticker" title="100% AI free, no language model, no user metrics" />
             <SocialLink href="https://github.com/teetow/master">
               <Icons.GitHub /> teetow/master
             </SocialLink>

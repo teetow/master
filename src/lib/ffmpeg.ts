@@ -1,6 +1,7 @@
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
 import { parseLog } from "./logparser";
+import { LoudnessStats } from "./types";
 import { getFileExt } from "./units";
 
 const version = "0.12.2";
@@ -11,22 +12,42 @@ export const FFmpegUrls = {
   wasmURL: await toBlobURL(`${baseUrl}/core@${version}/dist/esm/ffmpeg-core.wasm`, "application/wasm"),
 };
 
-export type LoudnessParams = {
-  i: number;
-  tp: number;
+type ParamType = number | { value: string; label: string };
+
+export type EncoderParams = {
+  bitDepth: "keep" | "pcm_s16le" | "pcm_s24le" | "pcm_s32le";
+  sampleRate: "keep" | string;
   target_i: number;
   target_tp: number;
-  result_i: number;
-  result_tp: number;
+};
+
+export const EncoderParamPresets = {
+  bitDepth: [
+    { value: "pcm_s16le", label: "16-bit" },
+    { value: "pcm_s24le", label: "24-bit" },
+    { value: "pcm_s32le", label: "32-bit" },
+    { value: "keep", label: "Keep" },
+  ],
+  sampleRate: [
+    { value: "44100", label: "44100" },
+    { value: "48000", label: "48000" },
+    { value: "keep", label: "Keep" },
+  ],
+  target_i: [-14],
+  target_tp: [-1],
+} satisfies Record<keyof EncoderParams, ParamType[]>;
+
+export const getOpt = (value: string, optset: { value: string; label: string }[]) => {
+  return optset.find((o) => o.value === value) || { value: value, label: value };
 };
 
 type LogCallback = ({ message }: { message: string }) => void;
 type ProgressCallback = ({ progress, time }: { progress: number; time: number }) => void;
 
-export const hasLoudnessParams = (params: Partial<LoudnessParams>): params is LoudnessParams =>
+export const hasLoudnessParams = (params: Partial<LoudnessStats>): params is LoudnessStats =>
   params !== undefined && "i" in params && "tp" in params && "target_i" in params && "target_tp" in params;
 
-export const calcLoudnorm = (params: LoudnessParams) =>
+export const calcLoudnorm = (params: LoudnessStats) =>
   Math.min(params.target_i - params.i, params.target_tp - params.tp);
 
 export function generateFilename(name: string, extras?: string[], ext?: string) {
@@ -38,11 +59,11 @@ export function generateFilename(name: string, extras?: string[], ext?: string) 
 type RuntimeOptions = {
   onMsg?: (s: string) => void;
   onProgress?: (ratio: number) => void;
-  onLogParse?: (params: Partial<LoudnessParams>) => void;
+  onLogParse?: (params: Partial<LoudnessStats>) => void;
 };
 
 export const getLoudness = async (file: File, options?: RuntimeOptions) => {
-  let params: Partial<LoudnessParams> = {};
+  let params: Partial<LoudnessStats> = {};
 
   const ffmpeg = new FFmpeg();
 
@@ -70,16 +91,11 @@ export const getLoudness = async (file: File, options?: RuntimeOptions) => {
   return params;
 };
 
-export type EncoderOptions = {
-  bitDepth: "keep" | "pcm_s16le" | "pcm_s24le" | "pcm_s32le";
-  sampleRate: "keep" | number;
-};
-
 export const applyGain = async (
   file: File,
   adjustment: number,
   options?: RuntimeOptions,
-  encoderOptions?: EncoderOptions
+  encoderOptions?: EncoderParams
 ) => {
   const ext = getFileExt(file.name);
 

@@ -14,6 +14,9 @@ dependencies:
   '@ffmpeg/util':
     specifier: ^0.12.0
     version: 0.12.0
+  '@headlessui/react':
+    specifier: ^1.7.17
+    version: 1.7.17(react-dom@18.2.0)(react@18.2.0)
   antd:
     specifier: ^5.8.4
     version: 5.8.4(react-dom@18.2.0)(react@18.2.0)
@@ -634,6 +637,18 @@ packages:
   /@ffmpeg/util@0.12.0:
     resolution: {integrity: sha512-8sHCW8H/ngqVhbRvCCX4e4uDNgZVoz8uNRry1zphIyzdX6flfBa2TmVwJ4g9/Qw//eAubEnuHaSxDGWWxcOTjg==}
     engines: {node: '>=18.17.0'}
+    dev: false
+
+  /@headlessui/react@1.7.17(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-4am+tzvkqDSSgiwrsEpGWqgGo9dz8qU5M3znCkC4PgkpY4HcCZzEDEvozltGGGHIKl9jbXbZPSH5TWn4sWJdow==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@humanwhocodes/config-array@0.11.10:
@@ -1289,6 +1304,10 @@ packages:
 
   /classnames@2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
+    dev: false
+
+  /client-only@0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
     dev: false
 
   /color-convert@1.9.3:
