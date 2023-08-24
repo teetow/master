@@ -1,9 +1,9 @@
-import { CSSProperties, HTMLAttributes, useState } from "react";
-import "./Log.css";
 import { cx } from "classix";
-import type { Entry } from "../hooks/useLogger";
-import Stack from "./Stack";
+import { CSSProperties, HTMLAttributes, useState } from "react";
 import Icons from "../components/Icons";
+import type { Entry } from "../hooks/useLogger";
+import "./Log.css";
+import Stack from "./Stack";
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   log: Entry[];
@@ -22,16 +22,14 @@ export default function Log({ className, log, ...props }: Props) {
         {expanded ? (
           <>
             {hasEntries && (
-              <>
-                <Stack as="li" className="entry expander" onClick={toggleExpanded} justifyContent="end">
-                  <Icons.ChevronUp />
-                </Stack>
-              </>
+              <Stack as="li" className="entry expander" onClick={toggleExpanded} justifyContent="end">
+                <Icons.ChevronUp />
+              </Stack>
             )}
-            {[...log].reverse().map((entry, index) => (
+            {[...log].reverse().map((entry) => (
               <li
                 className="entry"
-                key={`${index}-${entry}`}
+                key={`${entry.timestamp}`}
                 style={{ "--age": getAge(entry.timestamp) } as CSSProperties}
               >
                 {entry.msg}
@@ -40,17 +38,16 @@ export default function Log({ className, log, ...props }: Props) {
           </>
         ) : (
           hasEntries && (
-            <>
-              {" "}
-              <Stack as="li" className="entry" justifyContent="space-between" inline onClick={toggleExpanded}>
-                <span className="msg">{hasEntries && log[log.length - 1].msg}</span>
-                {log.length >= 1 && (
-                  <span className="expander">
-                    <Icons.ChevronDown />
-                  </span>
-                )}
-              </Stack>
-            </>
+            <Stack
+              as="li"
+              className="entry expander"
+              justifyContent="space-between"
+              inline
+              onClick={toggleExpanded}
+            >
+              <span className="msg">{hasEntries && log[log.length - 1].msg}</span>
+              {log.length >= 1 && <Icons.ChevronDown />}
+            </Stack>
           )
         )}
       </Stack>

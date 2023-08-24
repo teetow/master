@@ -16,6 +16,7 @@
   --theme-space-4: 4px;
   --theme-space-6: 6px;
   --theme-space-8: 8px;
+  --theme-space-16: 16px;
 }
 
 :root {
@@ -51,10 +52,15 @@ a:hover {
   color: var(--theme-color-brand-hover);
 }
 
+html {
+  min-height: 100vh;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
   min-width: 320px;
+  display: grid;
 }
 
 h1 {

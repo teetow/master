@@ -1,6 +1,6 @@
 .app {
-  min-height: 100vh;
   display: flex;
+  padding: var(--theme-space-8);
 }
 
 .master {
@@ -10,6 +10,18 @@
   max-width: 50rem;
   margin-inline: auto;
   padding-block: 2rem;
+}
+
+.master .sticker {
+  width: 64px;
+  height: 64px;
+  transform: rotate(-22deg) scale(0.8);
+  justify-self: end;
+}
+
+.master .dropzone {
+  display: flex;
+  flex-flow: column;
 }
 
 .master>.header {
@@ -28,15 +40,13 @@
 .header>.controls {
   grid-area: controls;
   justify-self: end;
+  font-size: 0.8em;
 }
 
 
-
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .master {
     overflow: hidden;
-    padding: var(--theme-space-8);
-    /* font-size: 0.8em; */
   }
 
   .master>.header {
@@ -59,25 +69,4 @@
     flex-wrap: wrap;
     gap: var(--theme-space-4)
   }
-}
-
-
-
-.master .sticker {
-  position: relative;
-}
-
-.master .sticker::after {
-  content: "";
-  display: block;
-  background-image: url("/seal.svg");
-  width: 64px;
-  height: 64px;
-  transform: rotate(-22deg) scale(0.8);
-
-}
-
-.master .dropzone {
-  display: flex;
-  flex-flow: column;
 }

@@ -1,8 +1,8 @@
 import { Listbox } from "@headlessui/react";
-import Stack from "../Stack";
-import TextBlock from "../TextBlock";
-import "./Picker.css";
 import { cx } from "classix";
+import "./Select.css";
+import Stack from "./Stack";
+import TextBlock from "./TextBlock";
 
 type Option<T> = {
   label: string;
@@ -16,9 +16,9 @@ type Props<T> = {
   onChange: (val: T) => void;
 };
 
-export default function Picker<T>({ label, value, options, onChange }: Props<T>) {
+export default function Select<T>({ label, value, options, onChange }: Props<T>) {
   return (
-    <Stack className="picker" inline gap="0.25rem">
+    <Stack className="select" inline gap="0.25rem">
       <TextBlock>{label}</TextBlock>
       <Stack className="controls">
         <Listbox onChange={onChange} by="value">

@@ -65,7 +65,7 @@ export default function Queue({ queue, onDrop }: Props) {
             <Icons.Download />
             <span className="droptext">Drop audio here</span>
             <span>or</span>
-            <input type="file" onChange={handleFileSelect} accept="audio/*" />
+            <input className="dropbutton" type="file" onChange={handleFileSelect} accept="audio/*" />
           </div>
         ) : (
           <></>

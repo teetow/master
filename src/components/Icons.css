@@ -4,7 +4,7 @@
 }
 
 .fillicon {
-  fill: var(--theme-color-brand);
+  fill: currentColor;
 }
 
 .lineicon {

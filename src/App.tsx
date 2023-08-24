@@ -17,8 +17,8 @@ import { analyzeFile } from "./lib/metadata";
 import { Job, LoudnessStats } from "./lib/types";
 import Input from "./ui/Input";
 import Log from "./ui/Log";
-import Picker from "./ui/Queue/Picker";
 import Queue from "./ui/Queue/Queue";
+import Select from "./ui/Select";
 import Stack from "./ui/Stack";
 import TextBlock from "./ui/TextBlock";
 
@@ -153,21 +153,21 @@ function App() {
               onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))}
             />
 
-            <Picker
+            <Select
               label="Bits"
               value={getOpt(encoderParams.bitDepth, presets.bitDepth)}
               options={presets.bitDepth}
               onChange={(val) => handleSetParam({ bitDepth: val as EncoderParams["bitDepth"] })}
             />
 
-            <Picker
+            <Select
               label="Sample rate"
               value={getOpt(encoderParams.sampleRate, presets.sampleRate)}
               options={presets.sampleRate}
               onChange={(val) => handleSetParam({ sampleRate: val as EncoderParams["sampleRate"] })}
             />
           </Stack>
-          <Log log={log} style={{ minHeight: 0 }} />
+          <Log log={log} style={{ minHeight: 0, fontSize: "0.8em" }} />
         </Stack>
 
         <Queue queue={jobs} onDrop={handleUploads} />
@@ -183,8 +183,13 @@ function App() {
           </TextBlock>
         </Stack>
 
-        <Stack className="socialbox" inline alignItems="center">
-          <div className="sticker" title="100% AI free, no language model, no user metrics" />
+        <Stack
+          className="socialbox"
+          inline
+          gap="var(--theme-space-16)"
+          justifyContent="end"
+          style={{ gridTemplateColumns: "auto auto auto 1fr" }}
+        >
           <SocialLink href="https://github.com/teetow/master">
             <Logo.GitHub /> teetow/master
           </SocialLink>
@@ -196,6 +201,8 @@ function App() {
           <SocialLink href="https://github.com/teetow/master">
             <Logo.SoundCloud /> SoundCloud
           </SocialLink>
+
+          <Logo.Seal className="sticker" title="100% AI free, no language model, no user metrics" />
         </Stack>
       </Stack>
     </>

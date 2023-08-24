@@ -6,7 +6,12 @@ type Props = {} & HTMLAttributes<HTMLOrSVGElement>;
 
 const Logos = {
   LoudMaster: ({ className, ...props }: Props) => (
-    <svg className={cx("logo loudmaster", className)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 24" {...props}>
+    <svg
+      className={cx("logo loudmaster", className)}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 38 24"
+      {...props}
+    >
       <path d="M 8 13 L 0 13 L 0 0 L 4 0 L 4 10 L 8 10 L 8 13 Z" />
       <path d="M 36 16 L 36 20 L 35 20 L 35 16 L 36 16 Z M 36 22 L 36 24 L 38 24 L 38 22 L 37 21 L 38 20 L 38 15 L 37 14 L 33 14 L 33 24 L 35 24 L 35 22 L 36 22 Z" />
       <path d="M 32 14 L 32 16 L 29 16 L 29 18 L 32 18 L 32 20 L 29 20 L 29 22 L 32 22 L 32 24 L 27 24 L 27 14 L 32 14 Z" />
@@ -18,6 +23,52 @@ const Logos = {
       <path d="M 23 0 L 23 10 L 24 10 L 24 0 L 28 0 L 28 12 L 27 13 L 20 13 L 19 12 L 19 0 L 23 0 Z" />
       <path d="M 14 3 L 14 10 L 13 10 L 13 3 L 14 3 Z M 10 0 L 17 0 L 18 1 L 18 12 L 17 13 L 10 13 L 9 12 L 9 1 L 10 0 Z" />
     </svg>
+  ),
+  Seal: ({ className, ...props }: Props) => (
+    <>
+      <svg
+        viewBox="0 0 64 64"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        className={cx("logo seal", className)}
+        {...props}
+      >
+        <defs>
+          <path d="M51 33c0 9-9 18-18 18-11 0-20-9-20-18 0-11 9-20 20-20 9 0 18 9 18 20z" id="prefix__a" />
+          <path
+            d="M17 40c3 5 9 9 15 9s12-4 15-9m12 0c-4 11-15 20-27 20S9 51 5 40m0-16C9 13 20 4 32 4s23 9 27 20m-12 0c-3-5-9-9-15-9s-12 4-15 9"
+            id="prefix__b"
+          />
+        </defs>
+        <g fontSize="5.7" fontWeight="100" style={{ textTransform: "uppercase" }} fill="#fc09">
+          <text letterSpacing="-.8">
+            <textPath startOffset="66" baselineShift="1.5" xlinkHref="#prefix__a">
+              No Language Model
+            </textPath>
+          </text>
+          <text letterSpacing="-.65">
+            <textPath startOffset="-1.3" baselineShift="-7.7" xlinkHref="#prefix__b">
+              No User Metrics
+            </textPath>
+          </text>
+          <g fontWeight="400">
+            <text x="32" y="24" fontSize="6" textAnchor="middle">
+              100%
+            </text>
+            <text transform="matrix(1.66 0 0 1.3 0 0)" x="1" y="28.6" fontSize="11.5">
+              AI FREE
+            </text>
+          </g>
+        </g>
+        <path
+          d="M17 40c3 5 9 9 15 9s12-4 15-9m12 0c-4 11-15 20-27 20S9 51 5 40m0-16C9 13 20 4 32 4s23 9 27 20m-12 0c-3-5-9-9-15-9s-12 4-15 9"
+          fill="none"
+          stroke="#fc09"
+          strokeWidth="0.6"
+          strokeLinecap="round"
+        />
+      </svg>
+    </>
   ),
   GitHub: () => (
     <svg viewBox="-16 -16 272 272" xmlns="http://www.w3.org/2000/svg" role="img" className="logo footerlogo">

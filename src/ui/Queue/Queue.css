@@ -31,6 +31,13 @@
 .queue .dropicon {
   display: block;
   width: 2rem;
+  color: white;
+}
+
+.queue .dropbutton::file-selector-button {
+  padding: var(--theme-space-4) var(--theme-space-8);
+  margin: 0 var(--theme-space-8);
+  border-radius: var(--theme-border-radius-4);
 }
 
 @container (width < 30em) {

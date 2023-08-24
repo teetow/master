@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import Icons from "../../components/Icons";
 import { Job } from "../../lib/types";
+import Progress from "../Progress";
 import Stack from "../Stack";
 import "./Item.css";
-import Progress from "./Progress";
 import Tag from "./Tag";
 
 type JobStatus = Job["status"];

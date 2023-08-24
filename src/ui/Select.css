@@ -1,14 +1,14 @@
-.picker {
+.select {
   isolation: isolate;
   z-index: 1;
 }
 
-.picker .controls {
+.select .controls {
   position: relative;
 
 }
 
-.picker .list {
+.select .list {
   background-color: #000;
   border: 2px solid transparent;
   inset: 0 0 auto 0;
@@ -20,7 +20,7 @@
   top: 100%;
 }
 
-.picker .trigger {
+.select .trigger {
   background-color: #fff2;
   border-radius: var(--theme-border-radius-4);
   display: flex;
@@ -29,27 +29,27 @@
   padding: var(--theme-space-4);
 }
 
-.picker .trigger[data-headlessui-state="open"] {
+.select .trigger[data-headlessui-state="open"] {
   border-radius: var(--theme-border-radius-4) var(--theme-border-radius-4) 0 0;
 }
 
-.picker .list[data-headlessui-state="open"] {
+.select .list[data-headlessui-state="open"] {
   background-color: var(--theme-color-bg-2);
   border-radius: 0 0 var(--theme-border-radius-4) var(--theme-border-radius-4);
 }
 
-.picker .trigger::after {
+.select .trigger::after {
   content: "˅";
   padding-left: 1rem;
   transform: scaleY(0.5);
 }
 
-.picker .item {
+.select .item {
   padding: 0.25rem var(--theme-space-8);
   user-select: none;
 }
 
-.picker .item.is-active {
+.select .item.is-active {
   background-color: var(--theme-color-bg-2-hover);
 }
 
