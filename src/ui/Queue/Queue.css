@@ -5,6 +5,7 @@
   user-select: none;
   position: relative;
   border-radius: var(--theme-border-radius-8);
+  container-type: inline-size;
 }
 
 .queue.has-drop {
@@ -19,7 +20,7 @@
   align-content: center;
   align-self: stretch;
   justify-items: center;
-  background-color: color(var(--theme-color-bg-3, ));
+  background-color: color-mix(in srgb, var(--theme-color-bg-3) 80%, #0000);
   border-radius: var(--theme-border-radius-8);
   display: grid;
   inset: 0;
@@ -30,4 +31,12 @@
 .queue .dropicon {
   display: block;
   width: 2rem;
+}
+
+@container (width < 30em) {
+  .queueitem .stats {
+    grid-template-columns: repeat(auto-fill, 15rem);
+    grid-auto-flow: row;
+    gap: var(--theme-space-8);
+  }
 }

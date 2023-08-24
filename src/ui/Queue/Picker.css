@@ -10,36 +10,49 @@
 
 .picker .list {
   background-color: #000;
+  border: 2px solid transparent;
+  inset: 0 0 auto 0;
   isolation: isolate;
   list-style-type: none;
   margin: 0;
   padding: 0;
   position: absolute;
-  top: 2rem;
-  inset: 0 0 auto 0;
-  border: 2px solid transparent;
+  top: 100%;
 }
 
 .picker .trigger {
   background-color: #fff2;
-  padding: 0.25rem 0.25rem;
-  border-radius: 0.125rem;
-  min-width: 5em;
+  border-radius: var(--theme-border-radius-4);
   display: flex;
   justify-content: space-between;
+  min-width: 5em;
+  padding: var(--theme-space-4);
+}
+
+.picker .trigger[data-headlessui-state="open"] {
+  border-radius: var(--theme-border-radius-4) var(--theme-border-radius-4) 0 0;
+}
+
+.picker .list[data-headlessui-state="open"] {
+  background-color: var(--theme-color-bg-2);
+  border-radius: 0 0 var(--theme-border-radius-4) var(--theme-border-radius-4);
 }
 
 .picker .trigger::after {
   content: "˅";
-  transform: scaleY(0.5);
   padding-left: 1rem;
+  transform: scaleY(0.5);
 }
 
 .picker .item {
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem var(--theme-space-8);
   user-select: none;
 }
 
-.picker .item:hover {
-  background-color: #fff4;
+.picker .item.is-active {
+  background-color: var(--theme-color-bg-2-hover);
 }
+
+/* .picker .item:hover {
+  background-color: #fff4;
+} */

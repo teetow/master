@@ -25,8 +25,10 @@ export default function Picker<T>({ label, value, options, onChange }: Props<T>)
           <Listbox.Button className="trigger">{value.label}</Listbox.Button>
           <Listbox.Options className="list">
             {options.map((o, i) => (
-              <Listbox.Option className={cx("item")} key={`${i}-${o.value}`} value={o.value}>
-                {o.label}
+              <Listbox.Option key={`${i}-${o.value}`} value={o.value}>
+                {({ active, selected }) => (
+                  <li className={cx("item", active && "is-active", selected && "is-selected")}>{o.label}</li>
+                )}
               </Listbox.Option>
             ))}
           </Listbox.Options>

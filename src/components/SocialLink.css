@@ -1,6 +1,6 @@
 .sociallink {
   align-items: center;
   display: flex;
-  gap: 0.5rem;
+  gap: var(--theme-space-8);
   justify-content: center;
 }

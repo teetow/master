@@ -138,46 +138,36 @@ function App() {
   return (
     <>
       <Stack className="master" gap="2rem">
-        <Stack className="header" inline justifyContent="space-between" alignItems="start">
-          <Logo.LoudMaster />
-          <Stack gap="0.5rem" style={{ fontSize: "0.8em" }}>
-            <Stack inline gap="0.5rem">
-              <Stack inline gap="0.5rem">
-                <Stack inline gap="0.25rem">
-                  <Input
-                    label="Integrated"
-                    value={encoderParams.target_i}
-                    onChange={(e) =>
-                      setEncoderParams((prev) => ({ ...prev, target_i: Number(e.target.value) }))
-                    }
-                  />
-                </Stack>
-                <Stack inline gap="0.25rem">
-                  <Input
-                    label="TruePeak"
-                    value={encoderParams.target_tp}
-                    onChange={(e) =>
-                      setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))
-                    }
-                  />
-                </Stack>
-              </Stack>
+        <Stack className="header" inline justifyContent="space-between" alignItems="center">
+          <Logo.LoudMaster className="applogo" />
+          <Stack className="controls" inline gap="var(--theme-space-8)">
+            <Input
+              label="Integrated"
+              value={encoderParams.target_i}
+              onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_i: Number(e.target.value) }))}
+            />
 
-              <Picker
-                label="Bits"
-                value={getOpt(encoderParams.bitDepth, presets.bitDepth)}
-                options={presets.bitDepth}
-                onChange={(val) => handleSetParam({ bitDepth: val as EncoderParams["bitDepth"] })}
-              />
-              <Picker
-                label="Sample rate"
-                value={getOpt(encoderParams.sampleRate, presets.sampleRate)}
-                options={presets.sampleRate}
-                onChange={(val) => handleSetParam({ sampleRate: val as EncoderParams["sampleRate"] })}
-              />
-            </Stack>
-            <Log log={log} style={{ minHeight: 0 }} />
+            <Input
+              label="TruePeak"
+              value={encoderParams.target_tp}
+              onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))}
+            />
+
+            <Picker
+              label="Bits"
+              value={getOpt(encoderParams.bitDepth, presets.bitDepth)}
+              options={presets.bitDepth}
+              onChange={(val) => handleSetParam({ bitDepth: val as EncoderParams["bitDepth"] })}
+            />
+
+            <Picker
+              label="Sample rate"
+              value={getOpt(encoderParams.sampleRate, presets.sampleRate)}
+              options={presets.sampleRate}
+              onChange={(val) => handleSetParam({ sampleRate: val as EncoderParams["sampleRate"] })}
+            />
           </Stack>
+          <Log log={log} style={{ minHeight: 0 }} />
         </Stack>
 
         <Queue queue={jobs} onDrop={handleUploads} />
@@ -193,7 +183,7 @@ function App() {
           </TextBlock>
         </Stack>
 
-        <Stack className="socialbox" inline alignItems="center" gap="2rem">
+        <Stack className="socialbox" inline alignItems="center">
           <div className="sticker" title="100% AI free, no language model, no user metrics" />
           <SocialLink href="https://github.com/teetow/master">
             <Logo.GitHub /> teetow/master

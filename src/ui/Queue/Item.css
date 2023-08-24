@@ -1,5 +1,5 @@
 .queueitem {
-  border-radius: 8px;
+  border-radius: var(--theme-border-radius-8);
   background-color: var(--theme-color-bg-2);
   padding: 1rem;
 }
@@ -9,7 +9,7 @@
 }
 
 .queueitem .stats {
-  font-size: 12px;
+  font-size: 0.8em;
 }
 
 .queueitem .statbox {
@@ -17,11 +17,11 @@
 }
 
 .queueitem .status {
-  font-size: 0.8em;
+  /* font-size: 0.8em; */
 }
 
 .queueitem .download {
   align-items: center;
   display: flex;
-  gap: 0.5rem;
+  gap: var(--theme-space-8);
 }

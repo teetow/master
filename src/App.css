@@ -4,19 +4,64 @@
 }
 
 .master {
-  gap: 0.5rem;
+  gap: var(--theme-space-8);
   grid-template-rows: auto 1fr auto auto;
   min-height: 12rem;
-  min-width: 28rem;
   max-width: 50rem;
   margin-inline: auto;
   padding-block: 2rem;
 }
 
-.logo.loudmaster {
-  min-width: 76px;
-  color: var(--theme-color-brand)
+.master>.header {
+  grid-template-areas: "logo controls"
+    "logo log";
+  grid-template-columns: auto 1fr;
+  gap: var(--theme-space-8)
 }
+
+.header>.applogo {
+  grid-area: logo;
+  min-width: 76px;
+  color: var(--theme-color-brand);
+}
+
+.header>.controls {
+  grid-area: controls;
+  justify-self: end;
+}
+
+
+
+@media (max-width: 400px) {
+  .master {
+    overflow: hidden;
+    padding: var(--theme-space-8);
+    /* font-size: 0.8em; */
+  }
+
+  .master>.header {
+    grid-template-areas: "logo" "controls" "log";
+    min-width: 0;
+  }
+
+  .header>.applogo {
+    max-height: 2rem;
+    justify-self: center;
+  }
+
+  .header>.controls {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .master>.socialbox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--theme-space-4)
+  }
+}
+
+
 
 .master .sticker {
   position: relative;
@@ -25,7 +70,7 @@
 .master .sticker::after {
   content: "";
   display: block;
-  background-image: url("seal.svg");
+  background-image: url("/seal.svg");
   width: 64px;
   height: 64px;
   transform: rotate(-22deg) scale(0.8);

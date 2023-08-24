@@ -1,5 +1,5 @@
-import { DownloadOutlined } from "@ant-design/icons";
 import { ReactNode } from "react";
+import Icons from "../../components/Icons";
 import { Job } from "../../lib/types";
 import Stack from "../Stack";
 import "./Item.css";
@@ -31,17 +31,15 @@ const Item = ({ src, status, resultUrl, resultFilename, progress, stats, meta }:
             <span className="jobname">{src?.name}</span>
           ) : (
             <a className="download" download={resultFilename} href={resultUrl}>
-              <DownloadOutlined />
+              <Icons.Download />
               {resultFilename}
             </a>
           )}
         </Stack>
 
-        <Stack className="status" inline gap="0.5rem">
+        <Stack className="status" inline gap="var(--theme-space-8)">
           <span className="statusicon">{getStatusIcon(status)}</span>
-          {!resultUrl && (
-            <Progress className="progress" progress={progress} radial size={16} radius={7} />
-          )}
+          {!resultUrl && <Progress className="progress" progress={progress} radial size={16} radius={7} />}
         </Stack>
       </Stack>
 
@@ -63,13 +61,7 @@ const Item = ({ src, status, resultUrl, resultFilename, progress, stats, meta }:
 
         <Stack className="statbox" inline>
           {!Number.isNaN(stats.i) && (
-            <Tag
-              label="I"
-              unit="dB"
-              value={stats.i}
-              targetValue={stats.target_i}
-              newValue={stats.result_i}
-            />
+            <Tag label="I" unit="dB" value={stats.i} targetValue={stats.target_i} newValue={stats.result_i} />
           )}
           {!Number.isNaN(stats.tp) && (
             <Tag

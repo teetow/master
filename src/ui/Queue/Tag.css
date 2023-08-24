@@ -1,9 +1,8 @@
 .tag {
   --color-bg: #999;
   --color-txt: #000;
-  --gap: 4px;
-  --rad: 2px;
-  border-radius: var(--rad);
+  --gap: var(--theme-space-4);
+  border-radius: var(--theme-border-radius-4);
   border: thin solid var(--color-bg);
   box-sizing: border-box;
   color: var(--color-bg);
@@ -30,5 +29,5 @@
 }
 
 .tag .arrow {
-  font-size: 8px;
+  font-size: 0.5em;
 }

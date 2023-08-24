@@ -5,10 +5,17 @@
   --theme-color-bg-1: #111;
   --theme-color-bg-2: #222;
   --theme-color-bg-3: #333;
+  --theme-color-bg-1-hover: #444;
+  --theme-color-bg-2-hover: #555;
+  --theme-color-bg-3-hover: #666;
   --theme-color-fg: #ddd;
   --theme-color-fg-boost: #fff;
   --theme-color-brand: hsl(48, 100%, 50%);
   --theme-color-brand-hover: hsl(38, 100%, 50%);
+  --theme-space-2: 2px;
+  --theme-space-4: 4px;
+  --theme-space-6: 6px;
+  --theme-space-8: 8px;
 }
 
 :root {
@@ -60,7 +67,8 @@ button {
   border-radius: var(--theme-border-radius-8);
   border: 1px solid transparent;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: var(--theme-space-8) 1rem;
+  font-size: 1em;
   font-family: inherit;
   font-stretch: condensed;
   transition: border-color 0.25s;
@@ -72,7 +80,7 @@ button:hover {
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: thin solid var(--theme-color-brand);
 }
 
 svg {
