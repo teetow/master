@@ -1,6 +1,6 @@
 .logger {
   border-radius: var(--theme-border-radius-8);
-  background-color: #fff1;
+  background-color: var(--theme-color-bg-2);
 
 }
 
@@ -18,7 +18,7 @@
 
 .log.has-entries.is-expanded .entry.expander:hover,
 .log.has-entries:not(.is-expanded):hover {
-  background-color: #fff1;
+  background-color: var(--theme-color-bg-2);
   cursor: pointer;
 }
 
@@ -29,19 +29,3 @@
 .entry.expander {
   text-align: end;
 }
-
-/* .log li:nth-child(n+1) {
-  color: #aaa;
-}
-
-.log li:nth-child(n+2) {
-  color: #999;
-}
-
-.log li:nth-child(n+3) {
-  color: #777;
-}
-
-.log li:nth-child(n+4) {
-  color: #666;
-} */

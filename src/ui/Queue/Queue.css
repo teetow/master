@@ -8,21 +8,26 @@
 }
 
 .queue.has-drop {
-  outline: 2px dashed #fc0;
+  outline: 2px dashed var(--theme-color-brand);
 }
 
 .queue.has-drop * {
   pointer-events: none;
 }
 
-
-
-.placeholder {
+.queue .placeholder {
+  align-content: center;
   align-self: stretch;
-  background-color: #333c;
+  justify-items: center;
+  background-color: color(var(--theme-color-bg-3, ));
   border-radius: var(--theme-border-radius-8);
   display: grid;
   inset: 0;
-  place-content: center;
   position: absolute;
+  text-align: center;
+}
+
+.queue .dropicon {
+  display: block;
+  width: 2rem;
 }

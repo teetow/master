@@ -3,7 +3,7 @@ import "./Log.css";
 import { cx } from "classix";
 import type { Entry } from "../hooks/useLogger";
 import Stack from "./Stack";
-import Icons from "./Icons";
+import Icons from "../components/Icons";
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   log: Entry[];

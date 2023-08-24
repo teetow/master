@@ -1,6 +1,7 @@
 import cx from "classix";
-import { DragEvent, useRef, useState } from "react";
+import { ChangeEvent, DragEvent, useRef, useState } from "react";
 import { Job } from "../../lib/types";
+import Icons from "../../components/Icons";
 import Stack from "../Stack";
 import Item from "./Item";
 import "./Queue.css";
@@ -16,7 +17,6 @@ export default function Queue({ queue, onDrop }: Props) {
 
   const handleEnter = (e: DragEvent) => {
     dragCtr.current += 1;
-    console.log("enter", e.target);
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
@@ -42,6 +42,12 @@ export default function Queue({ queue, onDrop }: Props) {
     setIsDragging(false);
   };
 
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      onDrop?.(e.target.files);
+    }
+  };
+
   return (
     <>
       <Stack
@@ -56,8 +62,10 @@ export default function Queue({ queue, onDrop }: Props) {
       >
         {queue.length === 0 || isDragging ? (
           <div className="placeholder">
-            <img className="dropicon" src="drop.svg" />
+            <Icons.Download />
             <span className="droptext">Drop audio here</span>
+            <span>or</span>
+            <input type="file" onChange={handleFileSelect} accept="audio/*" />
           </div>
         ) : (
           <></>

@@ -1,7 +1,7 @@
-import { ConfigProvider, theme } from "antd";
 import { useRef, useState } from "react";
 import "./App.css";
 import Logo from "./components/Logo";
+import SocialLink from "./components/SocialLink";
 import { useLogger } from "./hooks/useLogger";
 import { JobRunner } from "./lib/JobRunner";
 import {
@@ -15,12 +15,10 @@ import {
 } from "./lib/ffmpeg";
 import { analyzeFile } from "./lib/metadata";
 import { Job, LoudnessStats } from "./lib/types";
-import Icons from "./ui/Icons";
 import Input from "./ui/Input";
 import Log from "./ui/Log";
 import Picker from "./ui/Queue/Picker";
 import Queue from "./ui/Queue/Queue";
-import SocialLink from "./ui/SocialLink";
 import Stack from "./ui/Stack";
 import TextBlock from "./ui/TextBlock";
 
@@ -139,79 +137,77 @@ function App() {
 
   return (
     <>
-      <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
-        <Stack className="master" gap="2rem">
-          <Stack className="header" inline justifyContent="space-between" alignItems="start">
-            <Logo />
-            <Stack gap="0.5rem" style={{ fontSize: "0.8em" }}>
+      <Stack className="master" gap="2rem">
+        <Stack className="header" inline justifyContent="space-between" alignItems="start">
+          <Logo.LoudMaster />
+          <Stack gap="0.5rem" style={{ fontSize: "0.8em" }}>
+            <Stack inline gap="0.5rem">
               <Stack inline gap="0.5rem">
-                <Stack inline gap="0.5rem">
-                  <Stack inline gap="0.25rem">
-                    <Input
-                      label="Integrated"
-                      value={encoderParams.target_i}
-                      onChange={(e) =>
-                        setEncoderParams((prev) => ({ ...prev, target_i: Number(e.target.value) }))
-                      }
-                    />
-                  </Stack>
-                  <Stack inline gap="0.25rem">
-                    <Input
-                      label="TruePeak"
-                      value={encoderParams.target_tp}
-                      onChange={(e) =>
-                        setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))
-                      }
-                    />
-                  </Stack>
+                <Stack inline gap="0.25rem">
+                  <Input
+                    label="Integrated"
+                    value={encoderParams.target_i}
+                    onChange={(e) =>
+                      setEncoderParams((prev) => ({ ...prev, target_i: Number(e.target.value) }))
+                    }
+                  />
                 </Stack>
-
-                <Picker
-                  label="Bits"
-                  value={getOpt(encoderParams.bitDepth, presets.bitDepth)}
-                  options={presets.bitDepth}
-                  onChange={(val) => handleSetParam({ bitDepth: val as EncoderParams["bitDepth"] })}
-                />
-                <Picker
-                  label="Sample rate"
-                  value={getOpt(encoderParams.sampleRate, presets.sampleRate)}
-                  options={presets.sampleRate}
-                  onChange={(val) => handleSetParam({ sampleRate: val as EncoderParams["sampleRate"] })}
-                />
+                <Stack inline gap="0.25rem">
+                  <Input
+                    label="TruePeak"
+                    value={encoderParams.target_tp}
+                    onChange={(e) =>
+                      setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))
+                    }
+                  />
+                </Stack>
               </Stack>
-              <Log log={log} style={{ minHeight: 0 }} />
+
+              <Picker
+                label="Bits"
+                value={getOpt(encoderParams.bitDepth, presets.bitDepth)}
+                options={presets.bitDepth}
+                onChange={(val) => handleSetParam({ bitDepth: val as EncoderParams["bitDepth"] })}
+              />
+              <Picker
+                label="Sample rate"
+                value={getOpt(encoderParams.sampleRate, presets.sampleRate)}
+                options={presets.sampleRate}
+                onChange={(val) => handleSetParam({ sampleRate: val as EncoderParams["sampleRate"] })}
+              />
             </Stack>
-          </Stack>
-
-          <Queue queue={jobs} onDrop={handleUploads} />
-
-          <Stack style={{ maxWidth: "40rem" }}>
-            <TextBlock block variant="heading">
-              Readme.nfo
-            </TextBlock>
-            <TextBlock>
-              Drop a .wav file to normalize it to {encoderParams.target_i} dB LUFS Integrated loudness and{" "}
-              {encoderParams.target_tp} dB TruePeak. All processing is done in your browser. Nothing is
-              uploaded. May contain nuts.
-            </TextBlock>
-          </Stack>
-
-          <Stack className="socialbox" inline alignItems="center" gap="2rem">
-            <div className="sticker" title="100% AI free, no language model, no user metrics" />
-            <SocialLink href="https://github.com/teetow/master">
-              <Icons.GitHub /> teetow/master
-            </SocialLink>
-
-            <SocialLink href="https://github.com/teetow/master">
-              <Icons.Mastodon /> Mastodon
-            </SocialLink>
-
-            <SocialLink href="https://github.com/teetow/master">
-              <Icons.SoundCloud /> SoundCloud
-            </SocialLink>
+            <Log log={log} style={{ minHeight: 0 }} />
           </Stack>
         </Stack>
-      </ConfigProvider>
+
+        <Queue queue={jobs} onDrop={handleUploads} />
+
+        <Stack style={{ maxWidth: "40rem" }}>
+          <TextBlock block variant="heading">
+            Readme.nfo
+          </TextBlock>
+          <TextBlock>
+            Drop a .wav file to normalize it to {encoderParams.target_i} dB LUFS Integrated loudness and{" "}
+            {encoderParams.target_tp} dB TruePeak. All processing is done in your browser. Nothing is
+            uploaded. May contain nuts.
+          </TextBlock>
+        </Stack>
+
+        <Stack className="socialbox" inline alignItems="center" gap="2rem">
+          <div className="sticker" title="100% AI free, no language model, no user metrics" />
+          <SocialLink href="https://github.com/teetow/master">
+            <Logo.GitHub /> teetow/master
+          </SocialLink>
+
+          <SocialLink href="https://github.com/teetow/master">
+            <Logo.Mastodon /> Mastodon
+          </SocialLink>
+
+          <SocialLink href="https://github.com/teetow/master">
+            <Logo.SoundCloud /> SoundCloud
+          </SocialLink>
+        </Stack>
+      </Stack>
     </>
   );
 }

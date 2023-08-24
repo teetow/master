@@ -1,4 +1,3 @@
-
 .input {
   border-radius: var(--theme-border-radius-4);
   border: none;
@@ -10,5 +9,5 @@
 
 .input:hover,
 .input:focus-visible {
-  outline: thin solid #fc0;
+  outline: thin solid var(--theme-color-brand);
 }

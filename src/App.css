@@ -13,8 +13,9 @@
   padding-block: 2rem;
 }
 
-.master .logo {
+.logo.loudmaster {
   min-width: 76px;
+  color: var(--theme-color-brand)
 }
 
 .master .sticker {

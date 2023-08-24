@@ -1,6 +1,6 @@
 .queueitem {
   border-radius: 8px;
-  background-color: #1e1e1e;
+  background-color: var(--theme-color-bg-2);
   padding: 1rem;
 }
 

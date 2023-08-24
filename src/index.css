@@ -2,6 +2,13 @@
   --PI: 3.1415926536;
   --theme-border-radius-8: 8px;
   --theme-border-radius-4: 4px;
+  --theme-color-bg-1: #111;
+  --theme-color-bg-2: #222;
+  --theme-color-bg-3: #333;
+  --theme-color-fg: #ddd;
+  --theme-color-fg-boost: #fff;
+  --theme-color-brand: hsl(48, 100%, 50%);
+  --theme-color-brand-hover: hsl(38, 100%, 50%);
 }
 
 :root {
@@ -10,8 +17,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #111111;
+  color: var(--theme-color-fg);
+  background-color: var(--theme-color-bg-1);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,15 +34,14 @@
   }
 }
 
-
 a {
   font-weight: 500;
-  color: hsl(48, 87%, 43%);
+  color: var(--theme-color-brand);
   text-decoration: inherit;
 }
 
 a:hover {
-  color: hsl(32, 94%, 48%);
+  color: var(--theme-color-brand-hover);
 }
 
 body {
@@ -50,7 +56,7 @@ h1 {
 }
 
 button {
-  background-color: #1a1a1a;
+  background-color: var(--theme-color-bg-1);
   border-radius: var(--theme-border-radius-8);
   border: 1px solid transparent;
   cursor: pointer;
@@ -61,7 +67,7 @@ button {
 }
 
 button:hover {
-  border-color: #fc0;
+  border-color: var(--theme-color-brand);
 }
 
 button:focus,
@@ -79,12 +85,4 @@ svg .path-stroke {
   stroke-linejoin: round;
   stroke-width: 2;
   stroke: currentColor;
-}
-
-.footericon {
-  width: 1.5rem;
-}
-
-.footericon path {
-  fill: currentColor;
 }

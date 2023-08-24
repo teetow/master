@@ -1,3 +1,9 @@
 .logo {
   display: block;
+  fill: currentColor;
+  fill-rule: evenodd;
+}
+
+.footerlogo {
+  width: 1.5rem;
 }
