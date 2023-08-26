@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import "./App.css";
 import Logo from "./components/Logo";
 import SocialLink from "./components/SocialLink";
+import useLocalStorage from "./hooks/useLocalStorage";
 import { useLogger } from "./hooks/useLogger";
 import { JobRunner } from "./lib/JobRunner";
 import {
@@ -31,14 +32,32 @@ const defaultParams = {
   result_tp: NaN,
 };
 
+type StoredEncoderParams = Pick<EncoderParams, "bitDepth" | "sampleRate"> & {
+  target_i: string;
+  target_tp: string;
+};
+
+const parseEncoderParams = (data: StoredEncoderParams): EncoderParams => ({
+  bitDepth: data.bitDepth,
+  sampleRate: data.sampleRate,
+  target_i: Number(data.target_i),
+  target_tp: Number(data.target_tp),
+});
+
+const encodeEncoderParams = (data: Partial<EncoderParams>): StoredEncoderParams =>
+  Object.entries(data).reduce(
+    (acc, [key, value]) => ({ ...acc, [key]: value.toString() }),
+    {} as StoredEncoderParams
+  );
+
 function App() {
   const queue = useRef(new JobRunner());
 
-  const [encoderParams, setEncoderParams] = useState<EncoderParams>({
+  const [encoderParams, setEncoderParams] = useLocalStorage<StoredEncoderParams>({
     bitDepth: "keep",
     sampleRate: "keep",
-    target_i: -14,
-    target_tp: -1,
+    target_i: "-14",
+    target_tp: "-1",
   });
 
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -59,7 +78,7 @@ function App() {
       const newJob: Job = {
         src: file,
         status: "new",
-        stats: { ...defaultParams, ...encoderParams },
+        stats: { ...defaultParams, ...parseEncoderParams(encoderParams) },
         progress: 0,
       };
       setJobs((prev) => [...prev, newJob]);
@@ -119,7 +138,7 @@ function App() {
           updateJob(job);
         },
       },
-      encoderParams
+      parseEncoderParams(encoderParams)
     );
     job.stats = { ...job.stats, result_i: job.stats.i + adj, result_tp: job.stats.tp + adj };
 
@@ -132,7 +151,7 @@ function App() {
   };
 
   const handleSetParam = (option: Partial<EncoderParams>) => {
-    setEncoderParams((prev) => ({ ...prev, ...option }));
+    setEncoderParams((prev) => ({ ...prev, ...encodeEncoderParams(option) }));
   };
 
   return (
@@ -144,13 +163,13 @@ function App() {
             <Input
               label="Integrated"
               value={encoderParams.target_i}
-              onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_i: Number(e.target.value) }))}
+              onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_i: e.target.value }))}
             />
 
             <Input
               label="TruePeak"
               value={encoderParams.target_tp}
-              onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_tp: Number(e.target.value) }))}
+              onChange={(e) => setEncoderParams((prev) => ({ ...prev, target_tp: e.target.value }))}
             />
 
             <Select
@@ -173,9 +192,7 @@ function App() {
         <Queue queue={jobs} onDrop={handleUploads} />
 
         <Stack style={{ maxWidth: "40rem" }}>
-          <TextBlock variant="heading">
-            Readme.nfo
-          </TextBlock>
+          <TextBlock variant="heading">Readme.nfo</TextBlock>
           <TextBlock>
             Drop an audio file to normalize it to a maximum of {encoderParams.target_i} dB LUFS Integrated
             loudness and {encoderParams.target_tp} dB TruePeak. No dynamic compression is applied. All

@@ -4,7 +4,7 @@ import TextBlock from "./TextBlock";
 
 type Props = {
   label: string;
-  value: number;
+  value: number | string;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 

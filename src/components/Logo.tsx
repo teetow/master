@@ -52,10 +52,10 @@ const Logos = {
             </textPath>
           </text>
           <g fontWeight="400">
-            <text x="32" y="24" fontSize="6" textAnchor="middle">
+            <text x="32" y="23" fontSize="6" textAnchor="middle">
               100%
             </text>
-            <text transform="matrix(1.66 0 0 1.3 0 0)" x="1" y="28.6" fontSize="11.5">
+            <text transform="matrix(1.15 0 0 1.0 0 0)" x="2" y="38" font-size="17">
               AI FREE
             </text>
           </g>
