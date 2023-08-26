@@ -5,11 +5,14 @@
   --theme-color-bg-1: #111;
   --theme-color-bg-2: #222;
   --theme-color-bg-3: #333;
+  --theme-color-bg-4: #444;
   --theme-color-bg-1-hover: #444;
   --theme-color-bg-2-hover: #555;
   --theme-color-bg-3-hover: #666;
-  --theme-color-fg: #ddd;
-  --theme-color-fg-boost: #fff;
+  --theme-color-bg-4-hover: #777;
+  --theme-color-fg-1: #bbb;
+  --theme-color-fg-2: #ddd;
+  --theme-color-fg-3: #fff;
   --theme-color-brand: hsl(48, 100%, 50%);
   --theme-color-brand-hover: hsl(38, 100%, 50%);
   --theme-space-2: 2px;
@@ -25,7 +28,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: var(--theme-color-fg);
+  color: var(--theme-color-fg-1);
   background-color: var(--theme-color-bg-1);
 
   font-synthesis: none;

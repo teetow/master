@@ -173,13 +173,13 @@ function App() {
         <Queue queue={jobs} onDrop={handleUploads} />
 
         <Stack style={{ maxWidth: "40rem" }}>
-          <TextBlock block variant="heading">
+          <TextBlock variant="heading">
             Readme.nfo
           </TextBlock>
           <TextBlock>
-            Drop a .wav file to normalize it to {encoderParams.target_i} dB LUFS Integrated loudness and{" "}
-            {encoderParams.target_tp} dB TruePeak. All processing is done in your browser. Nothing is
-            uploaded. May contain nuts.
+            Drop an audio file to normalize it to a maximum of {encoderParams.target_i} dB LUFS Integrated
+            loudness and {encoderParams.target_tp} dB TruePeak. No dynamic compression is applied. All
+            processing is done in your browser. Nothing is uploaded. May contain nuts.
           </TextBlock>
         </Stack>
 

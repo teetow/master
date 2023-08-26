@@ -2,39 +2,43 @@ import cx from "classix";
 import { ComponentPropsWithoutRef, ElementType, PropsWithChildren } from "react";
 import "./TextBlock.css";
 
-const StyleElems = {
-  body: {
-    className: "body",
-  },
-  heading: {
-    className: "heading",
-  },
-  log: {
-    className: "log",
-  },
-  code: {
-    className: "code",
-  },
-} satisfies Record<string, { className: string }>;
+type ElementName = keyof JSX.IntrinsicElements & {};
+
+const asClasses = {
+  label: "label",
+} as Record<ElementName, string>;
+
+const StyleClasses = {
+  body: "body",
+  heading: "heading",
+  log: "log",
+  code: "code",
+  label: "label",
+} as Record<string, string>;
 
 type Props<T extends ElementType> = PropsWithChildren<{
   as?: T;
-  variant?: keyof typeof StyleElems;
-  block?: boolean;
+  variant?: keyof typeof StyleClasses;
 }> &
   ComponentPropsWithoutRef<T>;
 
 export default function TextBlock<T extends ElementType>({
   as,
   variant = "body",
-  block = false,
   children,
   className,
   ...props
 }: Props<T>) {
-  const Elem = as ? as : "div";
+  const Elem = as || "div";
   return (
-    <Elem className={cx("textblock", className, StyleElems[variant].className)} {...props}>
+    <Elem
+      className={cx(
+        "textblock",
+        className,
+        (as !== undefined && asClasses[as?.toString() as ElementName]) || StyleClasses[variant]
+      )}
+      {...props}
+    >
       {children}
     </Elem>
   );

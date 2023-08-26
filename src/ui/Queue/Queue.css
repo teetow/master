@@ -20,7 +20,7 @@
   align-content: center;
   align-self: stretch;
   justify-items: center;
-  background-color: color-mix(in srgb, var(--theme-color-bg-3) 80%, #0000);
+  background-color: color-mix(in srgb, var(--theme-color-bg-2) 90%, #0000);
   border-radius: var(--theme-border-radius-8);
   display: grid;
   inset: 0;
@@ -35,10 +35,23 @@
 }
 
 .queue .dropbutton::file-selector-button {
-  padding: var(--theme-space-4) var(--theme-space-8);
-  margin: 0 var(--theme-space-8);
+  background-color: var(--theme-color-bg-3);
   border-radius: var(--theme-border-radius-4);
+  border: thin solid var(--theme-color-bg-4);
+  font-family: 'Nunito Sans', sans-serif;
+  font-stretch: condensed;
+  margin: 0 var(--theme-space-8);
+  padding: var(--theme-space-4) var(--theme-space-8);
+  color: var(--theme-color-fg-2);
+  transition: background-color 120ms ease-in-out, border-color 120ms ease-in-out;
 }
+
+.queue .dropbutton::file-selector-button:hover {
+  background-color: var(--theme-color-bg-3-hover);
+  border-color: var(--theme-color-bg-4-hover);
+  transition: background-color 80ms ease-in-out, border-color 80ms ease-in-out;
+}
+
 
 @container (width < 30em) {
   .queueitem .stats {

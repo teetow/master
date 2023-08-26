@@ -15,6 +15,8 @@ export default function Queue({ queue, onDrop }: Props) {
   const dragCtr = useRef(0);
   const [isDragging, setIsDragging] = useState(false);
 
+  const isEmpty = queue !== undefined && queue.length === 0;
+
   const handleEnter = (e: DragEvent) => {
     dragCtr.current += 1;
     e.preventDefault();
@@ -23,7 +25,6 @@ export default function Queue({ queue, onDrop }: Props) {
   };
 
   const handleOver = (e: DragEvent) => {
-    console.log(dragCtr.current);
     e.stopPropagation();
     e.preventDefault();
   };
@@ -60,12 +61,16 @@ export default function Queue({ queue, onDrop }: Props) {
         onDragLeaveCapture={handleOut}
         onDrop={handleDrop}
       >
-        {queue.length === 0 || isDragging ? (
+        {isEmpty || isDragging ? (
           <div className="placeholder">
             <Icons.Download />
             <span className="droptext">Drop audio here</span>
-            <span>or</span>
-            <input className="dropbutton" type="file" onChange={handleFileSelect} accept="audio/*" />
+            {isEmpty && (
+              <>
+                <span>or</span>
+                <input className="dropbutton" type="file" onChange={handleFileSelect} accept="audio/*" />
+              </>
+            )}
           </div>
         ) : (
           <></>
@@ -73,6 +78,9 @@ export default function Queue({ queue, onDrop }: Props) {
         {[...queue].reverse().map((item, index) => (
           <Item key={`${index}-${item.src?.name}`} {...item} />
         ))}
+        {!isEmpty && (
+          <input className="dropbutton" type="file" onChange={handleFileSelect} accept="audio/*" />
+        )}
       </Stack>
     </>
   );

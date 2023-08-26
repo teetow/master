@@ -19,7 +19,7 @@ type Props<T> = {
 export default function Select<T>({ label, value, options, onChange }: Props<T>) {
   return (
     <Stack className="select" inline gap="0.25rem">
-      <TextBlock>{label}</TextBlock>
+      <TextBlock as="label">{label}</TextBlock>
       <Stack className="controls">
         <Listbox onChange={onChange} by="value">
           <Listbox.Button className="trigger">{value.label}</Listbox.Button>

@@ -8,11 +8,11 @@
 
 .progress.linear {
   height: 8px;
-  border: 2px solid var(--theme-color-fg);
+  border: 2px solid var(--theme-color-fg-1);
 }
 
 .progress.linear.visible::after {
-  background-color: var(--theme-color-fg);
+  background-color: var(--theme-color-fg-1);
   content: "";
   display: block;
   height: 4px;
