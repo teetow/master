@@ -1,4 +1,4 @@
-# master
+# The Loud Master
 In-browser loudness normalization
 
 Drop an audio file to normalize it using Integrated Loudness and TruePeak measurements. All in-browser, no leaky leaky of personal data.
