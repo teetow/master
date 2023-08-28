@@ -24,7 +24,7 @@ type Props = Job;
 
 const Item = ({ src, status, resultUrl, resultFilename, progress, stats, meta }: Props) => (
   <>
-    <Stack className="queueitem" gap="1rem">
+    <Stack className="queueitem" gap="var(--theme-space-8)">
       <Stack className="row details" inline>
         <Stack className="name" inline>
           {!resultUrl ? (

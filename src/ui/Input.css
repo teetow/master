@@ -1,18 +1,17 @@
 @layer lib {
-  .input {
+  .input-value {
     background-color: var(--theme-color-bg-3);
     border-radius: var(--theme-border-radius-4);
     border: none;
     font-size: 100%;
     line-height: 100%;
     max-width: 3em;
-    min-width: 1em;
     outline: thin solid #0000;
     padding: var(--theme-space-8) var(--theme-space-4);
   }
 
-  .input:hover,
-  .input:focus-visible {
+  .input-value:hover,
+  .input-value:focus-visible {
     outline: thin solid var(--theme-color-brand);
   }
 }

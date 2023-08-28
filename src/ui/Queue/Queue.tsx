@@ -54,7 +54,7 @@ export default function Queue({ queue, onDrop }: Props) {
       <Stack
         as="ul"
         className={cx("queue", isDragging && "has-drop")}
-        gap="1rem"
+        gap="var(--theme-space-16)"
         alignContent="start"
         onDragEnter={handleEnter}
         onDragOver={handleOver}
