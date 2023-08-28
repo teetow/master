@@ -1,6 +1,8 @@
-.sociallink {
-  align-items: center;
-  display: flex;
-  gap: var(--theme-space-8);
-  justify-content: center;
+@layer app {
+  .sociallink {
+    align-items: center;
+    display: flex;
+    gap: var(--theme-space-8);
+    justify-content: center;
+  }
 }

@@ -1,9 +1,11 @@
-.logo {
-  display: block;
-  fill: currentColor;
-  fill-rule: evenodd;
-}
+@layer app {
+  .logo {
+    display: block;
+    fill: currentColor;
+    fill-rule: evenodd;
+  }
 
-.footerlogo {
-  width: 1.5rem;
+  .footerlogo {
+    width: 1.5rem;
+  }
 }

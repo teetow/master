@@ -1,7 +1,7 @@
 import cx from "classix";
 import { ChangeEvent, DragEvent, useRef, useState } from "react";
-import { Job } from "../../lib/types";
 import Icons from "../../components/Icons";
+import { Job } from "../../lib/types";
 import Stack from "../Stack";
 import Item from "./Item";
 import "./Queue.css";

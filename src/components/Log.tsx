@@ -2,8 +2,8 @@ import { cx } from "classix";
 import { CSSProperties, HTMLAttributes, useState } from "react";
 import Icons from "../components/Icons";
 import type { Entry } from "../hooks/useLogger";
+import Stack from "../ui/Stack";
 import "./Log.css";
-import Stack from "./Stack";
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   log: Entry[];

@@ -1,34 +1,35 @@
-.progress {
-  --size: 40;
-}
+@layer lib {
+  .progress {
+    --size: 40;
+  }
 
-.progress:not(.visible) {
-  visibility: hidden;
-}
+  .progress:not(.visible) {
+    visibility: hidden;
+  }
 
-.progress.linear {
-  height: 8px;
-  border: 2px solid var(--theme-color-fg-1);
-}
+  .progress.linear {
+    height: 8px;
+    border: 2px solid var(--theme-color-fg-1);
+  }
 
-.progress.linear.visible::after {
-  background-color: var(--theme-color-fg-1);
-  content: "";
-  display: block;
-  height: 4px;
-  margin: 2px 2px 0;
-  width: max(0%, calc((var(--progress) * 100%) - 4px));
-  transition: width calc(2/60 * 1ms) linear;
-}
+  .progress.linear.visible::after {
+    background-color: var(--theme-color-fg-1);
+    content: "";
+    display: block;
+    height: 4px;
+    margin: 2px 2px 0;
+    width: max(0%, calc((var(--progress) * 100%) - 4px));
+    transition: width calc(2/60 * 1ms) linear;
+  }
 
-
-.progress.radial {
-  --scale: calc(var(--PI) * var(--radius) * 2);
-  fill: currentColor;
-  height: calc(var(--size) * 1px);
-  stroke-dasharray: calc(var(--progress) * var(--scale)) var(--scale);
-  transform: rotate(-90deg);
-  transition: stroke-dasharray 200ms linear;
-  width: calc(var(--size) * 1px);
-  will-change: stroke-dasharray;
+  .progress.radial {
+    --scale: calc(var(--PI) * var(--radius) * 2);
+    fill: currentColor;
+    height: calc(var(--size) * 1px);
+    stroke-dasharray: calc(var(--progress) * var(--scale)) var(--scale);
+    transform: rotate(-90deg);
+    transition: stroke-dasharray 200ms linear;
+    width: calc(var(--size) * 1px);
+    will-change: stroke-dasharray;
+  }
 }

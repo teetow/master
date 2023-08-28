@@ -1,105 +1,107 @@
-:root {
-  --PI: 3.1415926536;
-  --theme-border-radius-8: 8px;
-  --theme-border-radius-4: 4px;
-  --theme-color-bg-1: #111;
-  --theme-color-bg-2: #222;
-  --theme-color-bg-3: #333;
-  --theme-color-bg-4: #444;
-  --theme-color-bg-1-hover: #444;
-  --theme-color-bg-2-hover: #555;
-  --theme-color-bg-3-hover: #666;
-  --theme-color-bg-4-hover: #777;
-  --theme-color-fg-1: #bbb;
-  --theme-color-fg-2: #ddd;
-  --theme-color-fg-3: #fff;
-  --theme-color-brand: hsl(48, 100%, 50%);
-  --theme-color-brand-hover: hsl(38, 100%, 50%);
-  --theme-space-2: 2px;
-  --theme-space-4: 4px;
-  --theme-space-6: 6px;
-  --theme-space-8: 8px;
-  --theme-space-16: 16px;
-}
-
-:root {
-  font-family: sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: var(--theme-color-fg-1);
-  background-color: var(--theme-color-bg-1);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-@supports (font-variation-settings: normal) {
+@layer base {
   :root {
-    font-family: 'Nunito Sans', sans-serif;
-    font-stretch: condensed;
+    --PI: 3.1415926536;
+    --theme-border-radius-8: 8px;
+    --theme-border-radius-4: 4px;
+    --theme-color-bg-1: #111;
+    --theme-color-bg-2: #222;
+    --theme-color-bg-3: #333;
+    --theme-color-bg-4: #444;
+    --theme-color-bg-1-hover: #444;
+    --theme-color-bg-2-hover: #555;
+    --theme-color-bg-3-hover: #666;
+    --theme-color-bg-4-hover: #777;
+    --theme-color-fg-1: #bbb;
+    --theme-color-fg-2: #ddd;
+    --theme-color-fg-3: #fff;
+    --theme-color-brand: hsl(48, 100%, 50%);
+    --theme-color-brand-hover: hsl(38, 100%, 50%);
+    --theme-space-2: 2px;
+    --theme-space-4: 4px;
+    --theme-space-6: 6px;
+    --theme-space-8: 8px;
+    --theme-space-16: 16px;
   }
-}
 
-a {
-  font-weight: 500;
-  color: var(--theme-color-brand);
-  text-decoration: inherit;
-}
+  :root {
+    font-family: sans-serif;
+    line-height: 100%;
+    font-weight: 400;
 
-a:hover {
-  color: var(--theme-color-brand-hover);
-}
+    color-scheme: light dark;
+    color: var(--theme-color-fg-1);
+    background-color: var(--theme-color-bg-1);
 
-html {
-  min-height: 100vh;
-}
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+  }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  min-width: 320px;
-  display: grid;
-}
+  @supports (font-variation-settings: normal) {
+    :root {
+      font-family: 'Nunito Sans', sans-serif;
+      font-stretch: condensed;
+    }
+  }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
 
-button {
-  background-color: var(--theme-color-bg-1);
-  border-radius: var(--theme-border-radius-8);
-  border: 1px solid transparent;
-  cursor: pointer;
-  padding: var(--theme-space-8) 1rem;
-  font-size: 1em;
-  font-family: inherit;
-  font-stretch: condensed;
-  transition: border-color 0.25s;
-}
+  a {
+    font-weight: 500;
+    color: var(--theme-color-brand);
+    text-decoration: inherit;
+  }
 
-button:hover {
-  border-color: var(--theme-color-brand);
-}
+  a:hover {
+    color: var(--theme-color-brand-hover);
+  }
 
-button:focus,
-button:focus-visible {
-  outline: thin solid var(--theme-color-brand);
-}
+  html {
+    min-height: 100vh;
+  }
 
-svg {
-  display: block;
-}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    min-width: 320px;
+    display: grid;
+  }
 
-svg .path-stroke {
-  fill: transparent;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2;
-  stroke: currentColor;
+  h1 {
+    font-size: 3.2em;
+  }
+
+  button {
+    background-color: var(--theme-color-bg-1);
+    border-radius: var(--theme-border-radius-8);
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    font-stretch: condensed;
+    line-height: 100%;
+    transition: border-color 0.25s;
+  }
+
+  button:hover {
+    border-color: var(--theme-color-brand);
+  }
+
+  button:focus,
+  button:focus-visible {
+    outline: thin solid var(--theme-color-brand);
+  }
+
+  svg {
+    display: block;
+  }
+
+  svg .path-stroke {
+    fill: transparent;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    stroke: currentColor;
+  }
 }

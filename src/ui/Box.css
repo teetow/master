@@ -1,3 +1,5 @@
-.box {
-  display: flex;
+@layer lib {
+  .box {
+    display: flex;
+  }
 }

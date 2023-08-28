@@ -1,13 +1,15 @@
-.stack {
+@layer lib {
+  .stack {
     display: grid;
-}
+  }
 
-.stack.inline {
+  .stack.inline {
     grid-auto-flow: column;
     justify-content: start;
     align-items: center;
-}
+  }
 
-.stack:not(.inline) {
+  .stack:not(.inline) {
     grid-auto-flow: row;
+  }
 }

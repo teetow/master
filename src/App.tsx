@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import "./App.css";
+import Log from "./components/Log";
 import Logo from "./components/Logo";
 import SocialLink from "./components/SocialLink";
 import useLocalStorage from "./hooks/useLocalStorage";
@@ -17,8 +18,7 @@ import {
 import { analyzeFile } from "./lib/metadata";
 import { Job, LoudnessStats } from "./lib/types";
 import Input from "./ui/Input";
-import Log from "./ui/Log";
-import Queue from "./ui/Queue/Queue";
+import Queue from "./ui/Queue";
 import Select from "./ui/Select";
 import Stack from "./ui/Stack";
 import TextBlock from "./ui/TextBlock";

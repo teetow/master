@@ -1,72 +1,81 @@
-.app {
-  display: flex;
-  padding: var(--theme-space-8);
-}
+@layer base,
+lib,
+app;
 
-.master {
-  gap: var(--theme-space-8);
-  grid-template-rows: auto 1fr auto auto;
-  min-height: 12rem;
-  max-width: 50rem;
-  margin-inline: auto;
-  padding-block: 2rem;
-}
+@layer app {
+  .app {
+    display: flex;
+    padding: var(--theme-space-8);
+  }
 
-.master .sticker {
-  width: 64px;
-  height: 64px;
-  transform: rotate(-22deg) scale(0.8);
-  justify-self: end;
-}
-
-.master .dropzone {
-  display: flex;
-  flex-flow: column;
-}
-
-.master>.header {
-  grid-template-areas: "logo controls"
-    "logo log";
-  grid-template-columns: auto 1fr;
-  gap: var(--theme-space-8)
-}
-
-.header>.applogo {
-  grid-area: logo;
-  min-width: 76px;
-  color: var(--theme-color-brand);
-}
-
-.header>.controls {
-  grid-area: controls;
-  justify-self: end;
-  font-size: 0.8em;
-}
-
-
-@media (max-width: 500px) {
   .master {
-    overflow: hidden;
+    gap: var(--theme-space-8);
+    grid-template-rows: auto 1fr auto auto;
+    min-height: 12rem;
+    max-width: 50rem;
+    margin-inline: auto;
+    padding-block: 2rem;
+  }
+
+  .master .sticker {
+    width: 64px;
+    height: 64px;
+    transform: rotate(-22deg) scale(0.8);
+    justify-self: end;
+  }
+
+  .master .dropzone {
+    display: flex;
+    flex-flow: column;
   }
 
   .master>.header {
-    grid-template-areas: "logo" "controls" "log";
-    min-width: 0;
+    grid-template-areas: "logo controls"
+      "logo log";
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 2em 1fr;
+    gap: var(--theme-space-8)
   }
 
   .header>.applogo {
-    max-height: 2rem;
-    justify-self: center;
+    align-self: start;
+    color: var(--theme-color-brand);
+    grid-area: logo;
+    max-height: 64px;
+    min-width: 104px;
   }
 
   .header>.controls {
-    display: flex;
-    flex-wrap: wrap;
+    grid-area: controls;
+    justify-self: end;
+    font-size: 0.8em;
   }
 
-  .master>.socialbox {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--theme-space-4)
+
+  @media (max-width: 500px) {
+    .master {
+      overflow: hidden;
+    }
+
+    .master>.header {
+      grid-template-areas: "logo" "controls" "log";
+      min-width: 0;
+    }
+
+    .header>.applogo {
+      max-height: 2rem;
+      justify-self: center;
+    }
+
+    .header>.controls {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .master>.socialbox {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--theme-space-4)
+    }
   }
 }

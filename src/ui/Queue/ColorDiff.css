@@ -1,15 +1,17 @@
-.colordiff.over {
-  color: hsl(9, 100%, 27%);
-}
+@layer lib {
+  .colordiff.over {
+    color: hsl(9, 100%, 27%);
+  }
 
-.colordiff.at {
-  color: hsl(111, 100%, 14%);
-}
+  .colordiff.at {
+    color: hsl(111, 100%, 14%);
+  }
 
-.colordiff.under {
-  color: hsl(164, 10%, 22%);
-}
+  .colordiff.under {
+    color: hsl(164, 10%, 22%);
+  }
 
-.colordiff.wayunder {
-  color: hsl(0, 100%, 21%);
+  .colordiff.wayunder {
+    color: hsl(0, 100%, 21%);
+  }
 }

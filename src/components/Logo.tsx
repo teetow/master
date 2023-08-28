@@ -55,7 +55,7 @@ const Logos = {
             <text x="32" y="23" fontSize="6" textAnchor="middle">
               100%
             </text>
-            <text transform="matrix(1.15 0 0 1.0 0 0)" x="2" y="38" font-size="17">
+            <text transform="matrix(1.15 0 0 1.0 0 0)" x="2" y="38" fontSize="17">
               AI FREE
             </text>
           </g>

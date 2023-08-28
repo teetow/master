@@ -1,62 +1,64 @@
-.queue {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  user-select: none;
-  position: relative;
-  border-radius: var(--theme-border-radius-8);
-  container-type: inline-size;
-}
+@layer lib {
+  .queue {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    position: relative;
+    border-radius: var(--theme-border-radius-8);
+    container-type: inline-size;
+  }
 
-.queue.has-drop {
-  outline: 2px dashed var(--theme-color-brand);
-}
+  .queue.has-drop {
+    outline: 2px dashed var(--theme-color-brand);
+  }
 
-.queue.has-drop * {
-  pointer-events: none;
-}
+  .queue.has-drop * {
+    pointer-events: none;
+  }
 
-.queue .placeholder {
-  align-content: center;
-  align-self: stretch;
-  justify-items: center;
-  background-color: color-mix(in srgb, var(--theme-color-bg-2) 90%, #0000);
-  border-radius: var(--theme-border-radius-8);
-  display: grid;
-  inset: 0;
-  position: absolute;
-  text-align: center;
-}
+  .queue .placeholder {
+    align-content: center;
+    align-self: stretch;
+    justify-items: center;
+    background-color: color-mix(in srgb, var(--theme-color-bg-2) 90%, #0000);
+    border-radius: var(--theme-border-radius-8);
+    display: grid;
+    inset: 0;
+    position: absolute;
+    text-align: center;
+  }
 
-.queue .dropicon {
-  display: block;
-  width: 2rem;
-  color: white;
-}
+  .queue .dropicon {
+    display: block;
+    width: 2rem;
+    color: white;
+  }
 
-.queue .dropbutton::file-selector-button {
-  background-color: var(--theme-color-bg-3);
-  border-radius: var(--theme-border-radius-4);
-  border: thin solid var(--theme-color-bg-4);
-  font-family: 'Nunito Sans', sans-serif;
-  font-stretch: condensed;
-  margin: 0 var(--theme-space-8);
-  padding: var(--theme-space-4) var(--theme-space-8);
-  color: var(--theme-color-fg-2);
-  transition: background-color 120ms ease-in-out, border-color 120ms ease-in-out;
-}
+  .queue .dropbutton::file-selector-button {
+    background-color: var(--theme-color-bg-3);
+    border-radius: var(--theme-border-radius-4);
+    border: thin solid var(--theme-color-bg-4);
+    font-family: 'Nunito Sans', sans-serif;
+    font-stretch: condensed;
+    margin: 0 var(--theme-space-8) 0 0;
+    padding: var(--theme-space-4) var(--theme-space-8);
+    color: var(--theme-color-fg-2);
+    transition: background-color 120ms ease-in-out, border-color 120ms ease-in-out;
+  }
 
-.queue .dropbutton::file-selector-button:hover {
-  background-color: var(--theme-color-bg-3-hover);
-  border-color: var(--theme-color-bg-4-hover);
-  transition: background-color 80ms ease-in-out, border-color 80ms ease-in-out;
-}
+  .queue .dropbutton::file-selector-button:hover {
+    background-color: var(--theme-color-bg-3-hover);
+    border-color: var(--theme-color-bg-4-hover);
+    transition: background-color 80ms ease-in-out, border-color 80ms ease-in-out;
+  }
 
 
-@container (width < 30em) {
-  .queueitem .stats {
-    grid-template-columns: repeat(auto-fill, 15rem);
-    grid-auto-flow: row;
-    gap: var(--theme-space-8);
+  @container (width < 30em) {
+    .queueitem .stats {
+      grid-template-columns: repeat(auto-fill, 15rem);
+      grid-auto-flow: row;
+      gap: var(--theme-space-8);
+    }
   }
 }

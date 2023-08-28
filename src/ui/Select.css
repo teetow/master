@@ -1,58 +1,56 @@
-.select {
-  isolation: isolate;
-  z-index: 1;
+@layer lib {
+  .select {
+    isolation: isolate;
+    z-index: 1;
+  }
+
+  .select .controls {
+    position: relative;
+
+  }
+
+  .select .list {
+    background-color: #000;
+    color: var(--theme-color-fg-2);
+    inset: 0 0 auto 0;
+    isolation: isolate;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+  }
+
+  .select .trigger {
+    background-color: #fff2;
+    border-radius: var(--theme-border-radius-4);
+    display: flex;
+    justify-content: space-between;
+    min-width: 5em;
+    padding: var(--theme-space-8) var(--theme-space-4);
+  }
+
+  .select .trigger[data-headlessui-state="open"] {
+    border-radius: var(--theme-border-radius-4) var(--theme-border-radius-4) 0 0;
+  }
+
+  .select .list[data-headlessui-state="open"] {
+    background-color: var(--theme-color-bg-3);
+    border-radius: 0 0 var(--theme-border-radius-4) var(--theme-border-radius-4);
+  }
+
+  .select .trigger::after {
+    content: "˅";
+    padding-left: 1rem;
+    transform: scaleY(0.5);
+  }
+
+  .select .item {
+    padding: 0.25rem var(--theme-space-8);
+    user-select: none;
+  }
+
+  .select .item.is-active {
+    background-color: var(--theme-color-bg-2-hover);
+  }
 }
-
-.select .controls {
-  position: relative;
-
-}
-
-.select .list {
-  background-color: #000;
-  border: 2px solid transparent;
-  inset: 0 0 auto 0;
-  isolation: isolate;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 100%;
-}
-
-.select .trigger {
-  background-color: #fff2;
-  border-radius: var(--theme-border-radius-4);
-  display: flex;
-  justify-content: space-between;
-  min-width: 5em;
-  padding: var(--theme-space-4);
-}
-
-.select .trigger[data-headlessui-state="open"] {
-  border-radius: var(--theme-border-radius-4) var(--theme-border-radius-4) 0 0;
-}
-
-.select .list[data-headlessui-state="open"] {
-  background-color: var(--theme-color-bg-2);
-  border-radius: 0 0 var(--theme-border-radius-4) var(--theme-border-radius-4);
-}
-
-.select .trigger::after {
-  content: "˅";
-  padding-left: 1rem;
-  transform: scaleY(0.5);
-}
-
-.select .item {
-  padding: 0.25rem var(--theme-space-8);
-  user-select: none;
-}
-
-.select .item.is-active {
-  background-color: var(--theme-color-bg-2-hover);
-}
-
-/* .picker .item:hover {
-  background-color: #fff4;
-} */
