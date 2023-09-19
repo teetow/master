@@ -12,28 +12,28 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ffmpeg/ffmpeg": "^0.12.5",
-    "@ffmpeg/util": "^0.12.0",
+    "@ffmpeg/ffmpeg": "^0.12.6",
+    "@ffmpeg/util": "^0.12.1",
     "@headlessui/react": "^1.7.17",
     "classix": "^2.1.34",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "wavesurfer.js": "^7.1.5"
+    "wavesurfer.js": "^7.3.2"
   },
   "devDependencies": {
     "@types/emscripten": "^1.39.7",
-    "@types/node": "^20.5.1",
-    "@types/react": "^18.2.20",
+    "@types/node": "^20.6.2",
+    "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^6.4.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
     "@vitejs/plugin-react": "^4.0.4",
-    "eslint": "^8.47.0",
+    "eslint": "^8.49.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "jsdom": "^22.1.0",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "vite": "^4.4.9",
-    "vitest": "^0.34.2"
+    "vitest": "^0.34.4"
   }
 }

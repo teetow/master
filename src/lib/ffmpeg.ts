@@ -4,7 +4,7 @@ import { parseLog } from "./logparser";
 import { LoudnessStats } from "./types";
 import { getFileExt } from "./units";
 
-const version = "0.12.2";
+const version = "0.12.3";
 const baseUrl = "https://unpkg.com/@ffmpeg";
 
 export const FFmpegUrls = {
